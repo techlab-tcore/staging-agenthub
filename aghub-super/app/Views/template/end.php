@@ -231,7 +231,7 @@ function selfProfile()
     var params = {};
     params['uid'] = btoa('<?=$_SESSION['token'];?>');
 
-    $.post('/user/profile', {
+    $.post('/user/profile/hub', {
         params
     }, function(data, status) {
         const obj = JSON.parse(data);

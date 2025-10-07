@@ -290,7 +290,6 @@ class User_control extends BaseController
             'gender' => 1,
             'remark' => null,
             'role' => 2,
-            'address' => null,
             'apiurl' => $this->request->getpost('params')['apiurl'],
             'lobbyurl' => $this->request->getpost('params')['lobbyurl'],
             'currencycode' => (int)$this->request->getpost('params')['currencycode'],
