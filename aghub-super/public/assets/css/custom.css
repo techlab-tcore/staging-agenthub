@@ -1,0 +1,210 @@
+@charset "UTF-8";
+
+/**
+Copyright 2019
+**/
+
+/*
+Login
+*/
+
+.form-signin::before {
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background-color: #FFF;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+}
+
+.form-signin .checkbox {
+    font-weight: 400;
+}
+
+.form-signin .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+
+.form-signin input[type="text"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+/*
+Top Menu
+*/
+
+@media (max-width: 770px) {
+    .topmenu {
+        position: fixed;
+        top: 50px;
+        left: 0px;
+        z-index: 1010;
+        background-color: rgb(255, 255, 255);
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+    }
+
+    .topmenu .dropdown-menu {
+        box-shadow: unset !important;
+    }
+
+    .topmenu .nav-link {
+        padding: .5rem .8rem !important;
+    }
+}
+
+.topmenu .nav-link {
+    display: block;
+    font-weight: 500;
+    color: #333 !important;
+    padding: 1rem .8rem;
+}
+
+.topmenu .nav-link .feather {
+    margin-right: 4px;
+    color: #727272;
+}
+
+.topmenu .nav-link.active {
+    color: #007bff;
+}
+
+.topmenu .nav-link:hover .feather,
+.topmenu .nav-link.active .feather {
+    color: inherit;
+}
+
+.dropdown-toggle::after {
+    width: auto;
+    line-height: 0;
+    content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='1' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
+    transition: all .35s ease-in-out;
+    transform-origin: .5em 50%;
+    position: relative;
+    right: 0;
+    transform: rotate(180deg);
+    margin: auto !important;
+    border: none;
+    vertical-align: middle;
+}
+
+.topmenu .dropdown-toggle[aria-expanded="true"] {
+    color: rgba(13, 110, 253, .85) !important;
+    background: #f4f5fc;
+}
+
+.dropdown-toggle[aria-expanded="true"]::after {
+    transform: rotate(90deg);
+}
+
+.dropdown-menu a:hover,
+.dropdown-menu a:focus {
+    color: #0d6efd !important;
+}
+
+header .dropdown-toggle::after {
+    display: none;
+}
+
+.dropdown-menu {
+    box-shadow: 0 1rem 3rem rgba(0,0,0,.175);
+}
+
+/*
+Navbar
+*/
+
+.navbar-dark .navbar-toggler,
+.navbar-dark .navbar-toggler:focus {
+    border-width: 0px !important;
+    border-color: unset !important;
+    box-shadow: unset !important;
+}
+
+.custom-nav-toggle {
+    color: #FFF;
+    padding: .75rem 1rem;
+}
+
+.navbar-brand {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    font-size: 1rem;
+    /* background-color: rgba(0, 0, 0, .25); */
+    /* box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25); */
+}
+
+.navbar .navbar-toggler {
+    /* top: .25rem;
+    right: 1rem; */
+    top: 0;
+    left: 0;
+    width: 77px;
+    height: 48px;
+}
+
+.navbar .form-control {
+    padding: .75rem 1rem;
+    border-width: 0;
+    border-radius: 0;
+}
+
+.form-control-dark {
+    color: #fff;
+    background-color: rgba(255, 255, 255, .1);
+    border-color: rgba(255, 255, 255, .1);
+}
+
+.form-control-dark:focus {
+    border-color: transparent;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
+}
+
+header .profile>a {
+    display: inline-block;
+    height: 32px;
+    background: url('../../assets/img/avatar.svg') no-repeat center center;
+    background-size: contain;
+    border-radius: 1.5rem;
+}
+
+/*
+Common
+*/
+
+.btn-groups > a, .btn-groups > button {
+    margin-right: .25rem;
+    margin-bottom: 0.15rem;
+}
+
+.dropdown-item:focus, .dropdown-item:hover {
+    color: #642CDD;
+    text-decoration: none;
+    background-color: #f8f9fa;
+}
