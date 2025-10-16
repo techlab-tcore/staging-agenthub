@@ -4,8 +4,8 @@ use CodeIgniter\Model;
 
 class Export_model extends Model
 {
-    protected $exportList = 'http://10.148.0.10:7996/export/getlist';
-    protected $addExport = 'http://10.148.0.10:7996/export/exportpaymenthistory';
+    protected $exportList = '/export/getlist';
+    protected $addExport = '/export/exportpaymenthistory';
 
     public function __construct()
 	{
@@ -17,7 +17,13 @@ class Export_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->addExport);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->addExport);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->addExport);
+        endif;
+
+        //$ch = curl_init($this->addExport);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -39,7 +45,13 @@ class Export_model extends Model
 		$data = array_merge(['agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->exportList);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->exportList);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->exportList);
+        endif;
+
+        //$ch = curl_init($this->exportList);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);

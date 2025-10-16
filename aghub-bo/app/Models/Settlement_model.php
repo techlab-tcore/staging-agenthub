@@ -10,9 +10,9 @@ class Settlement_model extends Model
     http://10.148.0.2:7996
     */
 
-    protected $settlementList = 'http://10.148.0.10:7996/settlement/getlist';
+    protected $settlementList = '/settlement/getlist';
     //protected $editSettlement = 'http://10.148.0.2:7996/settlement/dosettlement';
-    protected $editSettlement = 'http://10.148.0.13:7996/settlement/dosettlement';
+    protected $editSettlement = '/settlement/dosettlement';
 
     public function __construct()
 	{
@@ -24,7 +24,13 @@ class Settlement_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->editSettlement);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->editSettlement);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->editSettlement);
+        endif;
+        
+        //$ch = curl_init($this->editSettlement);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -46,7 +52,13 @@ class Settlement_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->settlementList);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->settlementList);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->settlementList);
+        endif;
+        
+        //$ch = curl_init($this->settlementList);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);

@@ -56,7 +56,7 @@
                 <div class="mb-3 row">
                     <label class="col-4 col-form-label"><?=lang('Input.status');?></label>
                     <div class="col-8">
-                        <input type="text" class="form-control-plaintext" name="decision" readonly>
+                        <input type="text" class="form-control-plaintext" name="decision" id="decision" readonly>
                     </div>
                 </div>
                 <div class="mb-3 row">
@@ -251,6 +251,14 @@ function permission(pid, username, status)
     $('.modal-permission [name=status]').val(status);
     $('.modal-permission [name=username]').val(username);
     $('.modal-permission [name=decision]').val(decision);
+
+    if ( status==1 ) {
+        document.getElementById("decision").classList.remove('bg-danger');
+        document.getElementById("decision").classList.add('text-white', 'bg-success');
+    } else {
+        document.getElementById("decision").classList.remove('bg-success');
+        document.getElementById("decision").classList.add('text-white', 'bg-danger');
+    }
 }
 
 var schedule;

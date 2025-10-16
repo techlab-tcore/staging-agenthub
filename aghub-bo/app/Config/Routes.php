@@ -41,7 +41,7 @@ $routes->get('/', 'General_control::index');
 $routes->get('dashboard', 'General_control::dashboard', ['filter' => 'preauth']);
 $routes->get('agent', 'General_control::index_agent', ['filter' => 'preauth']);
 $routes->get('agent/downline/(:any)', 'General_control::index_agent/$1', ['filter' => 'preauth']);
-$routes->get('add-agent', 'General_control::index_addAgent', ['filter' => 'preauth']);
+//$routes->get('add-agent', 'General_control::index_addAgent', ['filter' => 'preauth']);
 $routes->get('member', 'General_control::index_member', ['filter' => 'preauth']);
 $routes->get('member/downline/(:any)', 'General_control::index_member/$1', ['filter' => 'preauth']);
 $routes->get('member/affiliate-downline/(:any)', 'General_control::index_userAffiliate/$1', ['filter' => 'preauth']);
@@ -142,18 +142,32 @@ $routes->get('system/jackpot/claim', 'General_control::index_claimJackpot', ['fi
 $routes->get('settings/currency', 'General_control::index_currency', ['filter' => 'preauth']);
 $routes->get('system-export', 'General_control::index_export', ['filter' => 'preauth']);
 
+$routes->get('dashboard-hub', 'General_control::index_hub', ['filter' => 'preauth']); //Hub
+$routes->get('hub-agent', 'General_control::index_hubAgent', ['filter' => 'preauth']); //Hub
+$routes->get('hub-agent/downline/(:any)', 'General_control::index_hubAgent/$1', ['filter' => 'preauth']); //Hub
+$routes->get('hub-add-agent', 'General_control::index_addHubAgent', ['filter' => 'preauth']); //Hub
+$routes->get('hub-sub-account', 'General_control::index_hubSubaccount', ['filter' => 'preauth']);
+$routes->get('hub-sub-account/add', 'General_control::index_addHubSubAccount', ['filter' => 'preauth']);
+
 $routes->resource('User_control');
-$routes->post('user/login', 'User_control::login');
-$routes->get('user/logout', 'User_control::logout', ['filter' => 'auth']);
+$routes->post('user/login', 'User_control::login'); //Hub
+$routes->get('user/logout', 'User_control::logout', ['filter' => 'auth']); //Hub
 $routes->post('user/profile', 'User_control::getUserProfile', ['filter' => 'auth']);
+$routes->post('user/profile/hub', 'User_control::getUserProfileHub', ['filter' => 'auth']); //Hub
 $routes->get('user/confidential', 'User_control::selfBalance', ['filter' => 'auth']);
 $routes->post('user/status-change', 'User_control::modifyUserStatus', ['filter' => 'auth']);
+$routes->post('hub/user/status-change', 'User_control::modifyUserStatusHub', ['filter' => 'auth']);
 $routes->post('user/personal-change/user', 'User_control::modifyPersonal', ['filter' => 'auth']);
+$routes->post('user/personal-change/user/hub', 'User_control::modifyPersonalHub', ['filter' => 'auth']); //Hub
+$routes->post('user/register/bycurrency', 'User_control::registerByCurrency', ['filter' => 'auth']); //Hub
 $routes->post('user/vault-pin/reset', 'User_control::resetUserVaultPin', ['filter' => 'auth']);
 $routes->post('user/second-password/reset', 'User_control::resetUser2ndPass', ['filter' => 'auth']);
 $routes->post('self/password-change/company', 'User_control::modifySelfPassword', ['filter' => 'auth']);
+$routes->post('self/password-change/company/hub', 'User_control::modifySelfPasswordHub', ['filter' => 'auth']);
 $routes->post('list/agent', 'User_control::agentList', ['filter' => 'auth']);
+$routes->post('list/agent/hub', 'User_control::agentListHub', ['filter' => 'auth']); //Hub
 $routes->post('user/agent/add', 'User_control::addAgent', ['filter' => 'auth']);
+$routes->post('hub/user/agent/add', 'User_control::addHubAgent', ['filter' => 'auth']); //Hub
 $routes->post('list/member', 'User_control::memberList', ['filter' => 'auth']);
 $routes->post('list/user/affiliate', 'User_control::userAffiliateDownline', ['filter' => 'auth']);
 $routes->post('user/member/add', 'User_control::addMember', ['filter' => 'auth']);
@@ -163,13 +177,20 @@ $routes->post('user/game-id/search', 'User_control::userGameIdSearch', ['filter'
 $routes->post('user/game-id', 'User_control::userGameId', ['filter' => 'auth']);
 $routes->post('list/sub-account', 'User_control::subAccountList', ['filter' => 'auth']);
 $routes->post('user/sub-account/add', 'User_control::addSubAccount', ['filter' => 'auth']);
+$routes->post('hub/user/sub-account/add', 'User_control::addHubSubAccount', ['filter' => 'auth']); //Hub
 $routes->post('list/user/permission', 'User_control::userPermissionList', ['filter' => 'auth']);
-$routes->post('list/agent/permission', 'User_control::agentPermissionList', ['filter' => 'auth']); //agent permit
-$routes->post('agent/permission/modify', 'User_control::editAgentPermission', ['filter' => 'auth']); //agent permit
+$routes->post('hub/list/sub-account', 'User_control::subAccountHubList', ['filter' => 'auth']); //Hub
+$routes->post('hub/list/user/permission', 'User_control::userHubPermissionList', ['filter' => 'auth']); //Hub
+$routes->post('list/agent/permission', 'User_control::agentPermissionList', ['filter' => 'auth']);
+$routes->post('agent/permission/modify', 'User_control::editAgentPermission', ['filter' => 'auth']);
+$routes->post('hub/list/agent/permission', 'User_control::agentHubPermissionList', ['filter' => 'auth']); //Hub
+$routes->post('hub/agent/permission/modify', 'User_control::editAgentHubPermission', ['filter' => 'auth']); //Hub
 $routes->post('user/permission/modify', 'User_control::editUserPermission', ['filter' => 'auth']);
+$routes->post('hub/user/permission/modify', 'User_control::editHubUserPermission', ['filter' => 'auth']); //hub
 $routes->post('user/reward-settings', 'User_control::userRewardSettings', ['filter' => 'auth']);
 $routes->post('user/reward-settings/modify', 'User_control::editUserRewardSettings', ['filter' => 'auth']);
 $routes->post('/user/administrator/negative-balance', 'User_control::getUserAdminNegativeSum', ['filter' => 'auth']);
+$routes->post('kiosk/bycurrency', 'User_control::userKioskByCurrency', ['filter' => 'auth']); //Hub
 
 $routes->resource('Gamept_control');
 $routes->post('list/game-provider/position-taking', 'Gamept_control::gamePtList', ['filter' => 'auth']);

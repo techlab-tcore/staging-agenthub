@@ -4,14 +4,14 @@ use CodeIgniter\Model;
 
 class Bet_model extends Model
 {
-    protected $actualBetLog = 'http://10.148.0.10:7996/settings/game/getgametransactionlist';
-    protected $scoreLog = 'http://10.148.0.10:7996/settings/game/getgametransferlist';
-    protected $archieveWinlose = 'http://10.148.0.10:7996/settings/game/getgametransactionptlist'; // PS Purpose
-    protected $winlose = 'http://10.148.0.10:7996/settings/game/getgametransactionptlist2'; // PT & 711
-    protected $winlose2 = 'http://10.148.0.10:7996/settings/game/getgametransactionptlist3'; // PT & 711
-    protected $referenceBetLog = 'http://10.148.0.10:7996/settings/refgame/getrefgametransactionlist';
+    protected $actualBetLog = '/settings/game/getgametransactionlist';
+    protected $scoreLog = '/settings/game/getgametransferlist';
+    protected $archieveWinlose = '/settings/game/getgametransactionptlist'; // PS Purpose
+    protected $winlose = '/settings/game/getgametransactionptlist2'; // PT & 711
+    protected $winlose2 = '/settings/game/getgametransactionptlist3'; // PT & 711
+    protected $referenceBetLog = '/settings/refgame/getrefgametransactionlist';
 
-    protected $refWinlose = 'http://10.148.0.10:7996/settings/refgame/getrefgametransactionptlist2';
+    protected $refWinlose = '/settings/refgame/getrefgametransactionptlist2';
 
     public function __construct()
 	{
@@ -23,7 +23,13 @@ class Bet_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->refWinlose);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->refWinlose);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->refWinlose);
+        endif;
+
+        //$ch = curl_init($this->refWinlose);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -45,7 +51,13 @@ class Bet_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->referenceBetLog);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->referenceBetLog);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->referenceBetLog);
+        endif;
+
+        //$ch = curl_init($this->referenceBetLog);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -67,7 +79,13 @@ class Bet_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->actualBetLog);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->actualBetLog);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->actualBetLog);
+        endif;
+        
+        //$ch = curl_init($this->actualBetLog);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -89,7 +107,13 @@ class Bet_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->scoreLog);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->scoreLog);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->scoreLog);
+        endif;
+
+        //$ch = curl_init($this->scoreLog);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -111,7 +135,13 @@ class Bet_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->winlose2);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->winlose2);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->winlose2);
+        endif;
+
+        //$ch = curl_init($this->winlose2);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -133,7 +163,13 @@ class Bet_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->winlose);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->winlose);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->winlose);
+        endif;
+        
+        //$ch = curl_init($this->winlose);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);

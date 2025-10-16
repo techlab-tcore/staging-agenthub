@@ -4,7 +4,7 @@ use CodeIgniter\Model;
 
 class Overview_model extends Model
 {
-    protected $overview = 'http://10.148.0.10:7996/settings/overview/getoverview';
+    protected $overview = '/settings/overview/getoverview';
 
     public function __construct()
 	{
@@ -16,7 +16,13 @@ class Overview_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->overview);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->overview);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->overview);
+        endif;
+        
+        //$ch = curl_init($this->overview);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);

@@ -118,6 +118,30 @@ class User_control extends BaseController
         echo json_encode($res);
     }
 
+    public function editHubUserPermission()
+    {
+        if( !session()->get('logged_in') ): return false; endif;
+
+        $param = new \stdClass();
+        $param->transaction = isset($this->request->getpost('params')['transaction']) ? $this->request->getpost('params')['transaction'] : 0;
+        $param->report = isset($this->request->getpost('params')['report']) ? $this->request->getpost('params')['report'] : 0;
+        $param->account = isset($this->request->getpost('params')['account']) ? $this->request->getpost('params')['account'] : 0;
+        $param->gameprovider = isset($this->request->getpost('params')['gprovider']) ? $this->request->getpost('params')['gprovider'] : 0;
+        $param->settings = isset($this->request->getpost('params')['settings']) ? $this->request->getpost('params')['settings'] : 0;
+        $param->extra = isset($this->request->getpost('params')['extra']) ? $this->request->getpost('params')['extra'] : 0;
+        $param->usersearch = isset($this->request->getpost('params')['usearch']) ? $this->request->getpost('params')['usearch'] : 0;
+        $param->userprofile = isset($this->request->getpost('params')['uprofile']) ? $this->request->getpost('params')['uprofile'] : 0;
+        $param->confidential = isset($this->request->getpost('params')['confidential']) ? $this->request->getpost('params')['confidential'] : 0;
+        $payload['major'] = $param;
+
+        $payload = [
+            'userid' => base64_decode($this->request->getpost('params')['uid']),
+            'permission' => json_encode($payload)
+        ];
+        $res = $this->user_model->updateUserHub($payload);
+        echo json_encode($res);
+    }
+
     //Agent Permit
     public function editAgentPermission()
     {
@@ -142,12 +166,68 @@ class User_control extends BaseController
         echo json_encode($res);
     }
 
+    //Agent Permit Hub
+    public function editAgentHubPermission()
+    {
+        if( !session()->get('logged_in') ): return false; endif;
+
+        $param = new \stdClass();
+        //Defaut
+        $param->transaction = 1;
+        $param->report = 1;
+        $param->account = 1;
+        $param->usersearch = 1;
+        //Permit
+        $param->transfercomm = isset($this->request->getpost('params')['transfercomm']) ? $this->request->getpost('params')['transfercomm'] : 0;
+        $param->createmember = isset($this->request->getpost('params')['createmember']) ? $this->request->getpost('params')['createmember'] : 0;
+        $payload['major'] = $param;
+
+        $payload = [
+            'userid' => base64_decode($this->request->getpost('params')['uid']),
+            'permission' => json_encode($payload)
+        ];
+        $res = $this->user_model->updateUserHub($payload);
+        echo json_encode($res);
+    }
 
     public function userPermissionList()
     {
         if( !session()->get('logged_in') ): return false; endif;
 
         $res = $this->user_model->selectUser(['userid' => base64_decode($this->request->getpost('params')['uid'])]);
+        $data = [];
+        if( $res['code']==1 && $res['data']!=[] && $res['data']['permission']!=[] ):
+            $permission = json_decode($res['data']['permission']);
+            $data['transaction'] = !isset($permission->major->transaction) ? 0 : (int)$permission->major->transaction;
+            $data['report'] = !isset($permission->major->report) ? 0 : (int)$permission->major->report;
+            $data['account'] = !isset($permission->major->account) ? 0 : (int)$permission->major->account;
+            $data['gameprovider'] = !isset($permission->major->gameprovider) ? 0 : (int)$permission->major->gameprovider;
+            $data['settings'] = !isset($permission->major->settings) ? 0 : (int)$permission->major->settings;
+            $data['extra'] = !isset($permission->major->extra) ? 0 : (int)$permission->major->extra;
+            $data['usersearch'] = !isset($permission->major->usersearch) ? 0 : (int)$permission->major->usersearch;
+            $data['userprofile'] = !isset($permission->major->userprofile) ? 0 : (int)$permission->major->userprofile;
+            $data['confidential'] = !isset($permission->major->confidential) ? 0 : (int)$permission->major->confidential;
+        else:
+            $data['transaction'] = 0;
+            $data['report'] = 0;
+            $data['account'] = 0;
+            $data['gameprovider'] = 0;
+            $data['settings'] = 0;
+            $data['extra'] = 0;
+            $data['usersearch'] = 0;
+            $data['userprofile'] = 0;
+            $data['confidential'] = 0;
+        endif;
+
+        echo json_encode(['code'=>$res['code'], 'message'=>$res['message'], 'data'=>$data]);
+    }
+
+    //hub
+    public function userHubPermissionList()
+    {
+        if( !session()->get('logged_in') ): return false; endif;
+
+        $res = $this->user_model->selectUserHub(['userid' => base64_decode($this->request->getpost('params')['uid'])]);
         $data = [];
         if( $res['code']==1 && $res['data']!=[] && $res['data']['permission']!=[] ):
             $permission = json_decode($res['data']['permission']);
@@ -195,6 +275,28 @@ class User_control extends BaseController
 
         echo json_encode(['code'=>$res['code'], 'message'=>$res['message'], 'data'=>$data]);
     }
+
+    //agent permission hub
+    public function agentHubPermissionList()
+    {
+        if( !session()->get('logged_in') ): return false; endif;
+
+        $res = $this->user_model->selectUserHub(['userid' => base64_decode($this->request->getpost('params')['uid'])]);
+        $data = [];
+        if( $res['code']==1 && $res['data']!=[] && $res['data']['permission']!=[] ):
+            $permission = json_decode($res['data']['permission']);
+            //Permit
+            $data['transfercomm'] = !isset($permission->major->transfercomm) ? 0 : (int)$permission->major->transfercomm;
+            $data['createmember'] = !isset($permission->major->createmember) ? 1 : (int)$permission->major->createmember;
+        else:
+            //Permit
+            $data['transfercomm'] = 0;
+            $data['createmember'] = 1;
+        endif;
+
+        echo json_encode(['code'=>$res['code'], 'message'=>$res['message'], 'data'=>$data]);
+    }
+
 
     /*
     User Search
@@ -573,18 +675,18 @@ class User_control extends BaseController
                     $action .= '</ul>';
                     $action .= '</div>';
 
-                    if( $_SESSION['role']==2 || (($_SESSION['uplinerole']==2 && $_SESSION['role']==5) && $_SESSION['userprofile']==1) ):
-                    $action .= '<a class="btn btn-vw btn-sm" href="javascript:void(0);" onclick="modify(\''.base64_encode($u['userId']).'\',\''.$u['loginId'].'\');">'.lang('Nav.edit').'</a>';
-                    endif;
+                    //if( $_SESSION['role']==2 || (($_SESSION['uplinerole']==2 && $_SESSION['role']==5) && $_SESSION['userprofile']==1) ):
+                    //$action .= '<a class="btn btn-vw btn-sm" href="javascript:void(0);" onclick="modify(\''.base64_encode($u['userId']).'\',\''.$u['loginId'].'\');">'.lang('Nav.edit').'</a>';
+                    //endif;
                     $action .= '<a class="btn btn-vw btn-sm" href="javascript:void(0);" onclick="affiliateQR(\''.base64_encode($u['userId']).'\');">'.lang('Nav.share').'</a>';
 
                     $action .= '<a class="btn btn-vw btn-sm" href="javascript:void(0);" onclick="agentPermission(\''.base64_encode($u['userId']).'\')">'.lang('Nav.userpermission').'</a>'; //permit
 
-                    if( $u['status']==1 ):
-                        $action .= '<a class="btn btn-success btn-sm bg-gradient" href="javascript:void(0);" onclick="modifyStatus(\''.base64_encode($u['userId']).'\', 2)">'.lang('Label.active').'</a>';
-                    else:
-                        $action .= '<a class="btn btn-danger btn-sm bg-gradient" href="javascript:void(0);" onclick="modifyStatus(\''.base64_encode($u['userId']).'\', 1)">'.lang('Label.inactive').'</a>';
-                    endif;
+                    //if( $u['status']==1 ):
+                    //    $action .= '<a class="btn btn-success btn-sm bg-gradient" href="javascript:void(0);" onclick="modifyStatus(\''.base64_encode($u['userId']).'\', 2)">'.lang('Label.active').'</a>';
+                    //else:
+                    //    $action .= '<a class="btn btn-danger btn-sm bg-gradient" href="javascript:void(0);" onclick="modifyStatus(\''.base64_encode($u['userId']).'\', 1)">'.lang('Label.inactive').'</a>';
+                    //endif;
                     $action .= '</div>';
 
                     $btngame = '<button class="btn btn-light btn-sm getupline ms-1" data-uid="'.base64_encode($u['userId']).'"><i class="bx bxs-user-account"></i></button>';
@@ -645,6 +747,30 @@ class User_control extends BaseController
         $res = $this->user_model->insertUser($payload);
         echo json_encode($res);
     }
+    
+    //Hub
+    public function addHubSubAccount()
+    {
+        if( !session()->get('logged_in') ): return false; endif;
+
+        $permission = '{"major":{"transaction":"1","report":"1","account":"0","gameprovider":"0","settings":"0","extra":"0","usersearch":"0","userprofile":"0","confidential":"0"}}';
+
+        $username  = strtoupper($_SESSION['username']).'SUB'.$this->request->getpost('params')['username'];
+
+        $payload = [
+            'loginid' => strtoupper($username),
+            'password' => $this->request->getpost('params')['password'],
+            'name' => $this->request->getpost('params')['fname'],
+            'regioncode' => $this->request->getpost('params')['regioncode'],
+            'contact' => $this->request->getpost('params')['contact'],
+            'remark' => $this->request->getpost('params')['remark'],
+            'permission' => $permission,
+            'role' => 5, // SubAccount
+            'currencycode' => 0
+        ];
+        $res = $this->user_model->insertHubUser($payload);
+        echo json_encode($res);
+    }
 
     public function subAccountList()
     {
@@ -683,6 +809,64 @@ class User_control extends BaseController
                     $action .= '<a class="btn btn-success btn-sm" href="javascript:void(0);" onclick="modifyStatus(\''.base64_encode($u['userId']).'\', 3)">'.lang('Label.active').'</a>';
                 else:
                     $action .= '<a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="modifyStatus(\''.base64_encode($u['userId']).'\', 1)">'.lang('Label.inactive').'</a>';
+                endif;
+                $action .= '</div>';
+
+                $row = [];
+                $row[] = $status;
+                $row[] = $u['loginId'];
+                $row[] = $u['name'];
+                $row[] = !empty($u['contact']) ? $u['contact'] : '---';
+                $row[] = !empty($u['remark']) ? $u['remark'] : '---';
+                $row[] = '<small class="badge bg-dark me-1">'.$u['lastLoginIP'].'</small>'.$lastLogin;
+                $row[] = $created;
+                $row[] = $action;
+                $data[] = $row;
+            endforeach;
+            echo json_encode(['data'=>$data, 'code'=>1, 'pageIndex'=>$payload['pageIndex'], 'rowPerPage'=>$payload['rowPerPage'], 'totalPage'=>$payload['totalPage'], 'totalRecord'=>$payload['totalRecord']]);
+        else:
+            echo json_encode(['no data']);
+        endif;
+    }
+
+    //Hub
+    public function subAccountHubList()
+    {
+        $raw = json_decode(file_get_contents('php://input'),1);
+
+        $payload = $this->user_model->selectAllUserHub([
+            'userid' => $_SESSION['token'], 
+            'role' => 5, 
+            'pageindex' => $raw['pageindex'],
+            'rowperpage' => $raw['rowperpage']
+        ]);
+        // echo json_encode($payload);
+
+        if( $payload['code'] == 1 && $payload['data'] != [] ):
+            $data = [];
+            foreach( $payload['data'] as $u ):
+                switch($u['status']):
+                    case 1: $status = lang('Label.active'); break;
+                    case 2: $status = lang('Label.inactive'); break;
+                    case 3: $status = lang('Label.freeze'); break;
+                    default: $status = '';
+                endswitch;
+                
+                $date = Time::parse(date('Y-m-d H:i:s', strtotime($u['createDate'])), 'Asia/Kuala_Lumpur');
+                $created = $date->toDateTimeString();
+
+                $loginDate = Time::parse(date('Y-m-d H:i:s', strtotime($u['lastLoginDate'])), 'Asia/Kuala_Lumpur');
+                $lastLogin = $loginDate->toDateTimeString();
+
+                $action = '<div class="btn-groups">';
+                // $action .= '<a class="btn btn-primary btn-sm" href="javascript:void(0);" onclick="resetPass(\''.base64_encode($u['userId']).'\')">'.lang('Nav.resetpass').'</a>';
+                // $action .= '<a class="btn btn-primary btn-sm" href="javascript:void(0);" onclick="modifyPass(\''.base64_encode($u['userId']).'\')">'.lang('Nav.chgpass').'</a>';
+                $action .= '<a class="btn btn-primary btn-sm" href="javascript:void(0);" onclick="subAccPermission(\''.base64_encode($u['id']).'\')">'.lang('Nav.userpermission').'</a>';
+                $action .= '<a class="btn btn-primary btn-sm" href="javascript:void(0);" onclick="modifyHubUser(\''.base64_encode($u['id']).'\',\''.$u['loginId'].'\')">'.lang('Nav.edit').'</a>';
+                if( $u['status']==1 ):
+                    $action .= '<a class="btn btn-success btn-sm" href="javascript:void(0);" onclick="modifyHubStatus(\''.base64_encode($u['id']).'\', 3)">'.lang('Label.active').'</a>';
+                else:
+                    $action .= '<a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="modifyHubStatus(\''.base64_encode($u['id']).'\', 1)">'.lang('Label.inactive').'</a>';
                 endif;
                 $action .= '</div>';
 
@@ -1059,6 +1243,41 @@ class User_control extends BaseController
         endif;
     }
 
+    //Hub
+    public function addHubAgent()
+    {
+        if( !session()->get('logged_in') ): return false; endif;
+
+        $subStandard = strtoupper($_SESSION['username']).'SUB';
+        if( strpos($this->request->getPost('params')['username'], $subStandard)!== false ):
+            echo json_encode(['code'=>-1, 'message'=>lang('Validation.usernameforbidden')]);
+        else:
+            $name = strtoupper($this->request->getpost('params')['username']);
+            if( $name=='AGENT' || $name=='ADMINISTRATOR' ):
+                echo json_encode([
+                    'code' => -1,
+                    'message' => lang('Validation.usernameforbidden')
+                ]);
+            else:
+                $payload = [
+                    'loginid' => preg_replace("/\s+/", "", strtoupper($this->request->getpost('params')['username'])),
+                    'password' => $this->request->getpost('params')['password'],
+                    'name' => $this->request->getpost('params')['fname'],
+                    'regioncode' => $this->request->getpost('params')['regioncode'],
+                    'contact' => $this->request->getpost('params')['contact'],
+                    'telegram' => $this->request->getpost('params')['telegram'],
+                    'permission' => '{"major":{"transaction":"1","report":"1","account":"1","usersearch":"1"}}',
+                    'gender' => 1,
+                    'remark' => $this->request->getpost('params')['remark'],
+                    'role' => 3, // Agent
+                    'currencycode' => 0
+                ];
+                $res = $this->user_model->insertHubUser($payload);
+                echo json_encode($res);
+            endif;
+        endif;
+    }
+
     public function agentList()
     {
         if( !session()->get('logged_in') ): return false; endif;
@@ -1139,9 +1358,9 @@ class User_control extends BaseController
                 $action .= '</ul>';
                 $action .= '</div>';
 
-                if( $_SESSION['role']==2 || (($_SESSION['uplinerole']==2 && $_SESSION['role']==5) && $_SESSION['userprofile']==1) ):
-                $action .= '<a class="btn btn-vw btn-sm" href="javascript:void(0);" onclick="modify(\''.base64_encode($u['userId']).'\',\''.$u['loginId'].'\');">'.lang('Nav.edit').'</a>';
-                endif;
+                //if( $_SESSION['role']==2 || (($_SESSION['uplinerole']==2 && $_SESSION['role']==5) && $_SESSION['userprofile']==1) ):
+                //$action .= '<a class="btn btn-vw btn-sm" href="javascript:void(0);" onclick="modify(\''.base64_encode($u['userId']).'\',\''.$u['loginId'].'\');">'.lang('Nav.edit').'</a>';
+                //endif;
 
                 $action .= '<a class="btn btn-vw btn-sm" href="javascript:void(0);" onclick="affiliateQR(\''.base64_encode($u['userId']).'\');">'.lang('Nav.share').'</a>';
 
@@ -1149,11 +1368,11 @@ class User_control extends BaseController
 
                 $checkNegative = '<button type="button" class="btn btn-primary btn-sm ms-1" onclick="getNegSum(\''.base64_encode($u['userId']).'\');"><i class="bx bx-math"></i></button>';
                 
-                if( $u['status']==1 ):
-                    $action .= '<a class="btn btn-success btn-sm bg-gradient" href="javascript:void(0);" onclick="modifyStatus(\''.base64_encode($u['userId']).'\', 2)">'.lang('Label.active').'</a>';
-                else:
-                    $action .= '<a class="btn btn-danger btn-sm bg-gradient" href="javascript:void(0);" onclick="modifyStatus(\''.base64_encode($u['userId']).'\', 1)">'.lang('Label.inactive').'</a>';
-                endif;
+                //if( $u['status']==1 ):
+                //    $action .= '<a class="btn btn-success btn-sm bg-gradient" href="javascript:void(0);" onclick="modifyStatus(\''.base64_encode($u['userId']).'\', 2)">'.lang('Label.active').'</a>';
+                //else:
+                //    $action .= '<a class="btn btn-danger btn-sm bg-gradient" href="javascript:void(0);" onclick="modifyStatus(\''.base64_encode($u['userId']).'\', 1)">'.lang('Label.inactive').'</a>';
+                //endif;
                 $action .= '</div>';
 
                 // MobileNo with Region
@@ -1185,6 +1404,125 @@ class User_control extends BaseController
             echo json_encode(['data'=>$data, 'code'=>1, 'pageIndex'=>$payload['pageIndex'], 'rowPerPage'=>$payload['rowPerPage'], 'totalPage'=>$payload['totalPage'], 'totalRecord'=>$payload['totalRecord']]);
         else:
             echo json_encode(['no data']);
+        endif;
+    }
+
+    //Hub
+    public function agentListHub()
+    {
+        if( !session()->get('logged_in') ): return false; endif;
+
+        $raw = json_decode(file_get_contents('php://input'),1);
+        $usercreated = !empty($raw['ucreated']) ? $raw['ucreated'] : null;
+        $refer = $raw['parent'] ? base64_decode($raw['parent']) : $_SESSION['token'];
+
+        $payload = $this->user_model->selectAllUserHub([
+            'userid' => $refer, 
+            'role' => 3, 
+            'timezone' => 8,
+            'loginid' => $raw['username'],
+            'regioncode' => $raw['regioncode'],
+            'contactno' => $raw['contact'],
+            'status' => (int)$raw['status'],
+            'date' => $usercreated,
+            'pageindex' => $raw['pageindex'],
+            'rowperpage' => $raw['rowperpage']
+        ]);
+        if( $payload['code']==1 && $payload['data']!=[] ):
+            $data = [];
+            foreach( $payload['data'] as $u ):
+
+                //User Currency Check
+                $payloadUser = [
+                    'userid' => $u['id'],
+                    'currencycode' => 0
+                ];
+                $resCurrency= $this->user_model->selectUserCurrency($payloadUser);
+                $currencyCode = '';
+                if ( $resCurrency['code']==1 && $resCurrency['data']!=[] ):
+                    foreach( $resCurrency['data'] as $ph ):
+                        if ($ph['existed']==true):
+                            switch($ph['currencyCode']):
+                                case 0: $currencyCode .= '<span class="badge bg-primary fw-normal me-1">MYR</span>'; break;
+                                case 1: $currencyCode .= '<span class="badge bg-warning fw-normal me-1">VND</span>'; break;
+                                case 2: $currencyCode .= '<span class="badge bg-warning fw-normal me-1">EUSDT</span>'; break;
+                                case 3: $currencyCode .= '<span class="badge bg-success fw-normal me-1">TUSDT</span>'; break;
+                                case 4: $currencyCode .= '<span class="badge bg-warning fw-normal me-1">BTC</span>'; break;
+                                case 5: $currencyCode .= '<span class="badge bg-warning fw-normal me-1">USD</span>'; break;
+                                case 6: $currencyCode .= '<span class="badge bg-warning fw-normal me-1">MMK</span>'; break;
+                                case 7: $currencyCode .= '<span class="badge bg-warning fw-normal me-1">EUR</span>'; break;
+                                case 8: $currencyCode .= '<span class="badge bg-warning fw-normal me-1">SGD</span>'; break;
+                                case 9: $currencyCode .= '<span class="badge bg-warning fw-normal me-1">CNY</span>'; break;
+                                case 10: $currencyCode .= '<span class="badge bg-warning fw-normal me-1">THB</span>'; break;
+                                case 11: $currencyCode .= '<span class="badge bg-warning fw-normal me-1">INR</span>'; break;
+                                case 12: $currencyCode .= '<span class="badge bg-warning fw-normal me-1">BND</span>'; break;
+                                case 13: $currencyCode .= '<span class="badge bg-warning fw-normal me-1">BDT</span>'; break;
+                                case 14: $currencyCode .= '<span class="badge bg-warning fw-normal me-1">IDR</span>'; break;
+                                default: $currencyCode .= '';
+                            endswitch;
+                        endif;
+                    endforeach;
+                else:
+                    echo json_encode($resCurrency);
+                endif;
+
+                switch($u['status']):
+                    case 1: $status = lang('Label.active'); break;
+                    case 2: $status = lang('Label.inactive'); break;
+                    case 3: $status = lang('Label.freeze'); break;
+                    default: $status = '';
+                endswitch;
+                
+                $date = Time::parse(date('Y-m-d H:i:s', strtotime($u['createDate'])));
+                $created = $date->toDateTimeString();
+
+                $loginDate = Time::parse(date('Y-m-d H:i:s', strtotime($u['lastLoginDate'])));
+                $lastLogin = $loginDate->toDateTimeString();
+
+                $action = '<div class="btn-groups">';
+                if( $_SESSION['role']==2 || (($_SESSION['uplinerole']==2 && $_SESSION['role']==5) && $_SESSION['userprofile']==1) ):
+                $action .= '<a class="btn btn-vw btn-sm" href="javascript:void(0);" onclick="modifyHubUser(\''.base64_encode($u['id']).'\',\''.$u['loginId'].'\');">'.lang('Nav.edit').'</a>';
+                endif;
+
+                $action .= '<a class="btn btn-vw btn-sm" href="javascript:void(0);" onclick="registerByCurrency(\''.base64_encode($u['id']).'\');">'.lang('Nav.addcurrency').'</a>';
+
+                $action .= '<a class="btn btn-vw btn-sm" href="javascript:void(0);" onclick="agentHubPermission(\''.base64_encode($u['id']).'\')">'.lang('Nav.userpermission').'</a>'; //permit
+
+                if( $u['status']==1 ):
+                    $action .= '<a class="btn btn-success btn-sm bg-gradient" href="javascript:void(0);" onclick="modifyHubStatus(\''.base64_encode($u['id']).'\', 2)">'.lang('Label.active').'</a>';
+                else:
+                    $action .= '<a class="btn btn-danger btn-sm bg-gradient" href="javascript:void(0);" onclick="modifyHubStatus(\''.base64_encode($u['id']).'\', 1)">'.lang('Label.inactive').'</a>';
+                endif;
+                $action .= '</div>';
+
+                // MobileNo with Region
+                $region = !empty($u['regionCode']) ? $u['regionCode'] : $_ENV['currencyCode'];
+                // $contact = '<span class="badge bg-primary fw-normal rounded-0 me-1">'.$region.'</span>'.$u['contact'];
+                $contact = '<span class="badge bg-dark fw-normal me-1">'.$region.'</span>';
+                // End MobileNo with Region
+
+                if( $_SESSION['role']==2 || (($_SESSION['uplinerole']==2 && $_SESSION['role']==5) && $_SESSION['userprofile']==1) ):
+                    $rightMobile = !empty($u['contact'])?$contact.$u['contact']:'---';
+                else:
+                    $rightMobile = '---';
+                endif;
+
+                $row = [];
+                $row[] = $u['loginId'];
+                $row[] = '<a class="" href="'.base_url('hub-agent/downline/'.base64_encode($u['id'])).'">'.$u['name'].'</a>';
+                $row[] = $currencyCode;
+                $row[] = $status;
+                $row[] = $rightMobile;
+                $row[] = !empty($u['telegram'])?$u['telegram']:'---';
+                $row[] = '<small class="badge bg-dark me-1">'.$u['lastLoginIP'].'</small>'.$lastLogin;
+                $row[] = $created;
+                $row[] = !empty($u['remark']) ? $u['remark'] : '---';
+                $row[] = $action;
+                $data[] = $row;
+            endforeach;
+            echo json_encode(['data'=>$data, 'code'=>1, 'pageIndex'=>$payload['pageIndex'], 'rowPerPage'=>$payload['rowPerPage'], 'totalPage'=>$payload['totalPage'], 'totalRecord'=>$payload['totalRecord']]);
+        else:
+            echo json_encode($payload);
         endif;
     }
 
@@ -1291,6 +1629,68 @@ class User_control extends BaseController
         endif;
     }
 
+    public function modifyPersonalHub()
+    {
+        if( !session()->get('logged_in') ): return false; endif;
+
+        $parent = isset($this->request->getpost('params')['uid']) ? base64_decode($this->request->getpost('params')['uid']) : $_SESSION['token'];
+
+        if( !isset($this->request->getpost('params')['usertype']) ): 
+            echo json_encode(['code'=>-1]); 
+        elseif( $this->request->getpost('params')['usertype'] != $_SESSION['session'] ) :
+            echo json_encode(['code'=>-1, 'message'=>'fatal error']); 
+        else:
+            if( isset($this->request->getpost('params')['newpass']) && !empty($this->request->getpost('params')['newpass']) ):
+                $payloadCredentialReset = [
+                    'userid' => $parent,
+                    'resetpassword' => true
+                ];
+                $resReset = $this->user_model->updateUserPasswordHub($payloadCredentialReset);
+                if( $resReset['code']==1 ):
+                    $payloadCredential = [
+                        'userid' => $parent,
+                        'password' => $resReset['password'],
+                        'newpassword' => $this->request->getpost('params')['newpass'],
+                        'resetpassword' => false
+                    ];
+                    $resCredential = $this->user_model->updateUserPasswordHub($payloadCredential);
+                    if( $resCredential['code']==1 ):
+                        $payloadProfile = [
+                            'userid' => $parent,
+                            'name' => !empty($this->request->getpost('params')['fname']) ? $this->request->getpost('params')['fname'] : '',
+                            'contact' => !empty($this->request->getpost('params')['contact']) ? $this->request->getpost('params')['contact'] : '',
+                            'telegram' => !empty($this->request->getpost('params')['telegram']) ? $this->request->getpost('params')['telegram'] : '',
+                            'remark' => !empty($this->request->getpost('params')['remark']) ? $this->request->getpost('params')['remark'] : ' ',
+                            'regioncode' => $this->request->getpost('params')['regioncode'],
+                        ];
+                        $res = $this->user_model->updateUserHub($payloadProfile);
+                        if( $res['code']==2 ):
+                            echo json_encode(['code'=>1, 'message'=>'SUCCESS']);
+                        else:
+                            echo json_encode($res);
+                        endif;
+                    else:
+                        echo json_encode($resCredential);
+                    endif;
+                else:
+                    echo json_encode($resReset);
+                endif;
+            else:
+            $payloadProfile = [
+                'userid' => $parent,
+                'name' => !empty($this->request->getpost('params')['fname']) ? $this->request->getpost('params')['fname'] : '',
+                'contact' => !empty($this->request->getpost('params')['contact']) ? $this->request->getpost('params')['contact'] : '',
+                'telegram' => !empty($this->request->getpost('params')['telegram']) ? $this->request->getpost('params')['telegram'] : '',
+                'remark' => !empty($this->request->getpost('params')['remark']) ? $this->request->getpost('params')['remark'] : ' ',
+                'regioncode' => $this->request->getpost('params')['regioncode'],
+            ];
+            $res = $this->user_model->updateUserHub($payloadProfile);
+            echo json_encode($res);
+            endif;
+
+        endif;
+    }
+
     public function modifyUserStatus()
     {
         if( !session()->get('logged_in') ): return false; endif;
@@ -1304,6 +1704,19 @@ class User_control extends BaseController
         echo json_encode($res);
     }
 
+    public function modifyUserStatusHub()
+    {
+        if( !session()->get('logged_in') ): return false; endif;
+
+        $payload = [
+            'userid' => base64_decode($this->request->getpost('params')['uid']),
+            'status' => (int)$this->request->getpost('params')['status']
+        ];
+
+        $res = $this->user_model->updateUserHub($payload);
+        echo json_encode($res);
+    }
+
     public function getUserProfile()
     {
         if( !session()->get('logged_in') ): return false; endif;
@@ -1314,6 +1727,34 @@ class User_control extends BaseController
             'userid' => $parent
         ];
         $res = $this->user_model->selectUser($payload);
+        echo json_encode($res);
+    }
+
+    public function getUserProfileHub()
+    {
+        if( !session()->get('logged_in') ): return false; endif;
+
+        $parent = isset($this->request->getpost('params')['uid']) ? base64_decode($this->request->getpost('params')['uid']) : $_SESSION['token'];
+
+        $payload = [
+            'userid' => $parent
+        ];
+        $res = $this->user_model->selectUserHub($payload);
+        echo json_encode($res);
+    }
+
+    public function registerByCurrency()
+    {
+        if( !session()->get('logged_in') ): return false; endif;
+
+        $payload = [
+            'userid' => base64_decode($this->request->getpost('params')['uid']),
+            'apiurl' => null,
+            'lobbyurl' => null,
+            'currencycode' => (int)$this->request->getpost('params')['currencycode']
+        ];
+
+        $res = $this->user_model->userRegisterByCurrency($payload);
         echo json_encode($res);
     }
 
@@ -1337,6 +1778,26 @@ class User_control extends BaseController
             ];
 
             $res = $this->user_model->updateUserPassword($payload);
+            echo json_encode($res);
+        endif;
+    }
+
+    public function modifySelfPasswordHub()
+    {
+        if( !session()->get('logged_in') ): return false; endif;
+
+        if( !isset($this->request->getpost('params')['agentname']) ): 
+            echo json_encode(['code'=>-1, 'message'=>'error']); 
+        else :
+
+            $payload = [
+                'userid' => $_SESSION['token'],
+                'password' => $this->request->getpost('params')['currentloginpass'],
+                'newpassword' => $this->request->getpost('params')['newcloginpass'],
+                'resetpassword' => false
+            ];
+
+            $res = $this->user_model->updateUserPasswordHub($payload);
             echo json_encode($res);
         endif;
     }
@@ -1393,19 +1854,23 @@ class User_control extends BaseController
             ];
     
             $res = $this->user_model->updateUserLogin($payload);
-            if( $res['code']==1 ):
+            //if( $res['code']==1 ):
+            if( $res['code']==1 && $res['data']!=[] ):
+                $ph = $res['data'];
                 $session = session();
                 $user_data = [
                     'logged_in' => TRUE,
-                    'token' => $res['userId'],
-                    'session' => $res['sessionId'],
-                    'uplinerole' => $res['uplineRole'],
-                    'role' => $res['role'],
+                    //'token' => $res['userId'],
+                    'token' => $ph['id'],
+                    'session' => $ph['sessionId'],
+                    //'uplinerole' => $ph['uplineRole'],
+                    'uplinerole' => $ph['agentRole'],
+                    'role' => $ph['role'],
                     'username' => strtoupper($this->request->getPost('params')['username']),
-                    'affiliate' => $res['affiliateCalculation'],
-                    'promotion' => $res['deductPromoCalculation'],
-                    'agcomm' => $res['commissionCalculation'],
-                    'ptcomm' => $res['ptCommissionCalculation']
+                    //'affiliate' => $res['affiliateCalculation'],
+                    //'promotion' => $res['deductPromoCalculation'],
+                    //'agcomm' => $res['commissionCalculation'],
+                    //'ptcomm' => $res['ptCommissionCalculation']
                 ];
                 $session->set($user_data);
             endif;
@@ -1413,10 +1878,31 @@ class User_control extends BaseController
         endif;
     }
 
+    public function userKioskByCurrency()
+    {
+        if( !session()->get('logged_in') ): return false; endif;
+
+        if( !isset($this->request->getpost('params')['currencycode']) ): 
+            echo json_encode(['code'=>-1, 'message'=>'error']); 
+        else:
+            $session = session();
+            $user_data = [
+                'apibycurrency' => $this->request->getpost('params')['currencycode'],
+            ];
+            $session->set($user_data);
+
+            if( !isset($_SESSION['apibycurrency']) ):
+                echo json_encode(['code'=>-2, 'message'=>'session not set']); 
+            else:
+                echo json_encode(['code'=>1, 'message'=>'SUCCESS']);
+            endif;
+        endif;
+    }
+
     public function logout()
     {
         $session = session();
-        $res = $this->user_model->updateUserLogout(['userid'=>$_SESSION['token']]);
+        $res = $this->user_model->updateUserLogout(['loginuserid'=>$_SESSION['token']]);
         $session->destroy();
         clearstatcache();
         return redirect()->to(base_url());

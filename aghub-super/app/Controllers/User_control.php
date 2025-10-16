@@ -581,7 +581,7 @@ class User_control extends BaseController
     public function logout()
     {
         $session = session();
-        $res = $this->user_model->updateUserLogout(['userid'=>$_SESSION['token']]);
+        $res = $this->user_model->updateUserLogout(['loginuserid'=>$_SESSION['token']]);
         $session->destroy();
         clearstatcache();
         return redirect()->to(base_url());

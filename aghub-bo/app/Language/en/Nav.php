@@ -170,4 +170,8 @@ return [
     'pendingagwithdrawal' => 'New Agent Withdrawal',
     'notransfercomm' => 'No Wallet Transfer Permission',
     'nocreatemember' => 'No Add Member',
+
+    'kioskbycurrency' => 'Kiosk by Currency',
+    'selectkioskcurrency' => 'Select Kiosk By Currency',
+    'addcurrency' => 'Add Currency',
 ];

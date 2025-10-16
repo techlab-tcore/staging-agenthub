@@ -4,12 +4,12 @@ use CodeIgniter\Model;
 
 class Depcomm_model extends Model
 {
-    protected $depositCommHistory = 'http://10.148.0.10:7996/topupcomm/gethistory';
+    protected $depositCommHistory = '/topupcomm/gethistory';
 
-    protected $depositCommPt = 'http://10.148.0.10:7996/topupcomm/get';
-    protected $editDepositCommPt = 'http://10.148.0.10:7996/topupcomm/edit';
-    protected $minMaxDepositCommPt = 'http://10.148.0.10:7996/topupcomm/getminmaxpt';
-    protected $depositCommPtList = 'http://10.148.0.10:7996/topupcomm/gettrxptlist';
+    protected $depositCommPt = '/topupcomm/get';
+    protected $editDepositCommPt = '/topupcomm/edit';
+    protected $minMaxDepositCommPt = '/topupcomm/getminmaxpt';
+    protected $depositCommPtList = '/topupcomm/gettrxptlist';
 
     public function __construct()
     {
@@ -21,7 +21,14 @@ class Depcomm_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->editDepositCommPt);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->editDepositCommPt);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->editDepositCommPt);
+        endif;
+
+
+        //$ch = curl_init($this->editDepositCommPt);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -43,7 +50,13 @@ class Depcomm_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->minMaxDepositCommPt);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->minMaxDepositCommPt);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->minMaxDepositCommPt);
+        endif;
+        
+        //$ch = curl_init($this->minMaxDepositCommPt);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -65,7 +78,13 @@ class Depcomm_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->depositCommPt);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->depositCommPt);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->depositCommPt);
+        endif;
+
+        //$ch = curl_init($this->depositCommPt);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -87,7 +106,13 @@ class Depcomm_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->depositCommPtList);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->depositCommPtList);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->depositCommPtList);
+        endif;
+
+        //$ch = curl_init($this->depositCommPtList);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -109,7 +134,13 @@ class Depcomm_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->depositCommHistory);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->depositCommHistory);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->depositCommHistory);
+        endif;
+        
+        //$ch = curl_init($this->depositCommHistory);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);

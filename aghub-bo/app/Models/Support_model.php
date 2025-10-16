@@ -4,13 +4,13 @@ use CodeIgniter\Model;
 
 class Support_model extends Model
 {
-    protected $supportList = 'http://10.148.0.10:7996/settings/cs/getlist';
-    protected $support = 'http://10.148.0.10:7996/settings/cs/get';
-    protected $addSupport = 'http://10.148.0.10:7996/settings/cs/add';
-    protected $editSupport = 'http://10.148.0.10:7996/settings/cs/edit';
+    protected $supportList = '/settings/cs/getlist';
+    protected $support = '/settings/cs/get';
+    protected $addSupport = '/settings/cs/add';
+    protected $editSupport = '/settings/cs/edit';
 
-    protected $liveChat = 'http://10.148.0.10:7996/settings/cs/getlivechaturl';
-    protected $editLiveChat = 'http://10.148.0.10:7996/settings/cs/editlivechaturl';
+    protected $liveChat = '/settings/cs/getlivechaturl';
+    protected $editLiveChat = '/settings/cs/editlivechaturl';
 
     public function __construct()
 	{
@@ -22,7 +22,13 @@ class Support_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->editLiveChat);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->editLiveChat);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->editLiveChat);
+        endif;
+        
+        //$ch = curl_init($this->editLiveChat);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -44,7 +50,13 @@ class Support_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->liveChat);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->liveChat);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->liveChat);
+        endif;
+        
+        //$ch = curl_init($this->liveChat);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -66,7 +78,13 @@ class Support_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->editSupport);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->editSupport);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->editSupport);
+        endif;
+        
+        //$ch = curl_init($this->editSupport);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -88,7 +106,13 @@ class Support_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->addSupport);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->addSupport);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->addSupport);
+        endif;
+        
+        //$ch = curl_init($this->addSupport);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -110,7 +134,13 @@ class Support_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->support);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->support);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->support);
+        endif;
+        
+        //$ch = curl_init($this->support);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -132,7 +162,13 @@ class Support_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->supportList);
+       if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->supportList);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->supportList);
+        endif;
+       
+        // $ch = curl_init($this->supportList);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);

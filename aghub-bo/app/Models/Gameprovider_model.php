@@ -4,23 +4,23 @@ use CodeIgniter\Model;
 
 class Gameprovider_model extends Model
 {
-    protected $gpList = 'http://10.148.0.10:7996/settings/gameprovider/getgameproviderlist';
-    protected $gp = 'http://10.148.0.10:7996/settings/gameprovider/getgameprovider';
-    protected $addGp = 'http://10.148.0.10:7996/settings/gameprovider/addgameprovider';
-    protected $editGp = 'http://10.148.0.10:7996/settings/gameprovider/editgameprovider';
-    protected $editGpRebate = 'http://10.148.0.10:7996/settings/gameprovider/editgameproviderrebate';
-    protected $editGpComm = 'http://10.148.0.10:7996/settings/gameprovider/editgameprovidercommission';
+    protected $gpList = '/settings/gameprovider/getgameproviderlist';
+    protected $gp = '/settings/gameprovider/getgameprovider';
+    protected $addGp = '/settings/gameprovider/addgameprovider';
+    protected $editGp = '/settings/gameprovider/editgameprovider';
+    protected $editGpRebate = '/settings/gameprovider/editgameproviderrebate';
+    protected $editGpComm = '/settings/gameprovider/editgameprovidercommission';
 
-    protected $gpClosedList = 'http://10.148.0.10:7996/settings/gameprovider/getclosegameprovider';
-    protected $editGpClosed = 'http://10.148.0.10:7996/settings/gameprovider/editclosegameprovider';
+    protected $gpClosedList = '/settings/gameprovider/getclosegameprovider';
+    protected $editGpClosed = '/settings/gameprovider/editclosegameprovider';
 
-    private $gameBalance = 'http://10.148.0.10:7996/settings/game/getgamebalance';
-    private $transferGamebalance = 'http://10.148.0.10:7996/settings/game/transfergame';
+    private $gameBalance = '/settings/game/getgamebalance';
+    private $transferGamebalance = '/settings/game/transfergame';
 
-    private $gpRebate = 'http://10.148.0.10:7996/settings/gameprovider/editgameproviderrebate';
-    private $gpAgentCommission = 'http://10.148.0.10:7996/settings/gameprovider/editgameprovidercommission';
+    private $gpRebate = '/settings/gameprovider/editgameproviderrebate';
+    private $gpAgentCommission = '/settings/gameprovider/editgameprovidercommission';
 
-    private $transferFreeCredit = 'http://10.148.0.10:7996/game/clearbalance';
+    private $transferFreeCredit = '/game/clearbalance';
 
     public function __construct()
 	{
@@ -32,7 +32,13 @@ class Gameprovider_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->transferFreeCredit);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->transferFreeCredit);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->transferFreeCredit);
+        endif;
+        
+        //$ch = curl_init($this->transferFreeCredit);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -54,7 +60,13 @@ class Gameprovider_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->gpRebate);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->gpRebate);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->gpRebate);
+        endif;
+        
+        //$ch = curl_init($this->gpRebate);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -76,7 +88,13 @@ class Gameprovider_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->gpAgentCommission);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->gpAgentCommission);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->gpAgentCommission);
+        endif;
+        
+        //$ch = curl_init($this->gpAgentCommission);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -98,7 +116,13 @@ class Gameprovider_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->editGp);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->editGp);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->editGp);
+        endif;
+
+        //$ch = curl_init($this->editGp);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -120,7 +144,13 @@ class Gameprovider_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->addGp);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->addGp);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->addGp);
+        endif;
+
+        //$ch = curl_init($this->addGp);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -142,7 +172,13 @@ class Gameprovider_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->transferGamebalance);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->transferGamebalance);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->transferGamebalance);
+        endif;
+        
+        //$ch = curl_init($this->transferGamebalance);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -164,7 +200,13 @@ class Gameprovider_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->gameBalance);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->gameBalance);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->gameBalance);
+        endif;
+
+        //$ch = curl_init($this->gameBalance);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -186,7 +228,13 @@ class Gameprovider_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->editGpClosed);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->editGpClosed);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->editGpClosed);
+        endif;
+        
+        //$ch = curl_init($this->editGpClosed);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -208,7 +256,13 @@ class Gameprovider_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->gpClosedList);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->gpClosedList);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->gpClosedList);
+        endif;
+        
+        //$ch = curl_init($this->gpClosedList);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -230,7 +284,13 @@ class Gameprovider_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->gp);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->gp);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->gp);
+        endif;
+
+        //$ch = curl_init($this->gp);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -252,7 +312,13 @@ class Gameprovider_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->gpList);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->gpList);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->gpList);
+        endif;
+        
+        //$ch = curl_init($this->gpList);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);

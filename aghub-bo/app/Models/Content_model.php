@@ -4,10 +4,10 @@ use CodeIgniter\Model;
 
 class Content_model extends Model
 {
-    protected $contentList = 'http://10.148.0.10:7996/content/getlist';
-    protected $content = 'http://10.148.0.10:7996/content/get';
-    protected $addContent = 'http://10.148.0.10:7996/content/add';
-    protected $editContent = 'http://10.148.0.10:7996/content/edit';
+    protected $contentList = '/content/getlist';
+    protected $content = '/content/get';
+    protected $addContent = '/content/add';
+    protected $editContent = '/content/edit';
 
     public function __construct()
 	{
@@ -19,7 +19,13 @@ class Content_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'adminid'=>$_ENV['host']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->editContent);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->editContent);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->editContent);
+        endif;
+        
+        //$ch = curl_init($this->editContent);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -41,7 +47,13 @@ class Content_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'adminid'=>$_ENV['host']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->addContent);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->addContent);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->addContent);
+        endif;
+        
+        //$ch = curl_init($this->addContent);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);

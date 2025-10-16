@@ -1,7 +1,7 @@
 <main class="wrap-form-signin">
     <div class="form-signin">
 
-        <h2 class="text-center text-uppercase text-dark mb-4">VWorld 2.0</h2>
+        <h2 class="text-center text-uppercase text-dark mb-4">V2 Agent Hub</h2>
         <?=form_open('',['class'=>'form-validation loginForm','novalidate'=>'novalidate']);?>
         <div class="input-group mb-3 rounded shadow-vw">
             <span class="input-group-text" id="basic-addon1"><i class="bx bxs-user color-vw"></i></span>
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 if( obj.code==1 ) {
                     swal.close();
                     alertToast('bg-success', obj.message);
-                    window.location.replace("<?=base_url('user-search');?>");
+                    window.location.replace("<?=base_url('dashboard-hub');?>");
                 } else {
                     alertToast('bg-warning', obj.message);
                     $('.loginForm [type=submit]').prop('disabled', false);

@@ -227,8 +227,9 @@ class User_model extends Model
 
     public function updateUserLogout($where)
 	{
-		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
-		$payload = json_encode($data);
+		//$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
+		$data = array_merge(['loginsessionid'=>$_SESSION['session']], $where);
+        $payload = json_encode($data);
         
         $ch = curl_init($this->userLogout);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

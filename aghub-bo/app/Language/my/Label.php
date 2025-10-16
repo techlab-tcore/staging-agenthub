@@ -248,4 +248,6 @@ return [
 
     'starttime' => 'Masa Mula',
     'endtime' => 'Masa Tamat',
+
+    'regisbycurrency' => 'Register By Currency',
 ];

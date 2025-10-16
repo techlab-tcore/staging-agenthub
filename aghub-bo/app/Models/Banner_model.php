@@ -4,10 +4,10 @@ use CodeIgniter\Model;
 
 class Banner_model extends Model
 {
-    protected $bannerList = 'http://10.148.0.10:7996/settings/banner/getbannerlist';
-    protected $banner = 'http://10.148.0.10:7996/settings/banner/getbanner';
-    protected $addBanner = 'http://10.148.0.10:7996/settings/banner/addbanner';
-    protected $editBanner = 'http://10.148.0.10:7996/settings/banner/editbanner';
+    protected $bannerList = '/settings/banner/getbannerlist';
+    protected $banner = '/settings/banner/getbanner';
+    protected $addBanner = '/settings/banner/addbanner';
+    protected $editBanner = '/settings/banner/editbanner';
 
     public function __construct()
 	{
@@ -19,7 +19,13 @@ class Banner_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->editBanner);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->editBanner);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->editBanner);
+        endif;
+        
+        //$ch = curl_init($this->editBanner);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -41,7 +47,14 @@ class Banner_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->addBanner);
+
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->addBanner);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->addBanner);
+        endif;
+        
+        //$ch = curl_init($this->addBanner);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -63,7 +76,14 @@ class Banner_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->banner);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->banner);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->banner);
+        endif;
+
+
+        //$ch = curl_init($this->banner);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -85,7 +105,13 @@ class Banner_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->bannerList);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->bannerList);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->bannerList);
+        endif;
+
+        //$ch = curl_init($this->bannerList);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);

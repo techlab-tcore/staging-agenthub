@@ -248,4 +248,6 @@ return [
 
     'starttime' => '开始时间',
     'endtime' => '结束时间',
+
+    'regisbycurrency' => '货币注册',
 ];

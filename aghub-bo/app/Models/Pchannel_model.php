@@ -4,10 +4,10 @@ use CodeIgniter\Model;
 
 class Pchannel_model extends Model
 {
-    protected $paymentChannelList = 'http://10.148.0.10:7996/paymentchannel/getlist';
-    protected $paymentChannel = 'http://10.148.0.10:7996/paymentchannel/get';
-    protected $addPaymentChannel = 'http://10.148.0.10:7996/paymentchannel/add';
-    protected $editPaymentChannel = 'http://10.148.0.10:7996/paymentchannel/edit';
+    protected $paymentChannelList = '/paymentchannel/getlist';
+    protected $paymentChannel = '/paymentchannel/get';
+    protected $addPaymentChannel = '/paymentchannel/add';
+    protected $editPaymentChannel = '/paymentchannel/edit';
 
     public function __construct()
 	{
@@ -19,7 +19,13 @@ class Pchannel_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->editPaymentChannel);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->editPaymentChannel);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->editPaymentChannel);
+        endif;
+        
+        //$ch = curl_init($this->editPaymentChannel);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -41,7 +47,13 @@ class Pchannel_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->addPaymentChannel);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->addPaymentChannel);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->addPaymentChannel);
+        endif;
+        
+        //$ch = curl_init($this->addPaymentChannel);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -63,7 +75,13 @@ class Pchannel_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->paymentChannel);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->paymentChannel);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->paymentChannel);
+        endif;
+        
+        //$ch = curl_init($this->paymentChannel);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -85,7 +103,13 @@ class Pchannel_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->paymentChannelList);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->paymentChannelList);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->paymentChannelList);
+        endif;
+        
+        //$ch = curl_init($this->paymentChannelList);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);

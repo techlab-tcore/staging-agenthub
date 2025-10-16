@@ -169,4 +169,8 @@ return [
     'pendingagwithdrawal' => '新股东提款',
     'notransfercomm' => '禁止钱包互转权限',
     'nocreatemember' => '禁止添加会员',
+
+    'kioskbycurrency' => '币种后台',
+    'selectkioskcurrency' => '选择币种后台',
+    'addcurrency' => '添加币种',
 ];

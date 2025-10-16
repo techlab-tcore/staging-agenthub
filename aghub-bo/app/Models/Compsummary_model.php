@@ -4,8 +4,8 @@ use CodeIgniter\Model;
 
 class Compsummary_model extends Model
 {
-    protected $companySummary = 'http://10.148.0.10:7996/companysummary/get';
-    protected $addCompanySummary = 'http://10.148.0.10:7996/companysummary/add';
+    protected $companySummary = '/companysummary/get';
+    protected $addCompanySummary = '/companysummary/add';
 
     public function __construct()
 	{
@@ -17,7 +17,13 @@ class Compsummary_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->addCompanySummary);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->addCompanySummary);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->addCompanySummary);
+        endif;
+        
+        //$ch = curl_init($this->addCompanySummary);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -39,7 +45,13 @@ class Compsummary_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->companySummary);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->companySummary);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->companySummary);
+        endif;
+
+        // $ch = curl_init($this->companySummary);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);

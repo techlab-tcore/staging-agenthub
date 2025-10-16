@@ -4,6 +4,33 @@
 Copyright 2019
 **/
 
+:root {
+    --bgcolor-hub: rgb(82, 124, 235, .1);
+    --bgcolor-MYR: rgba(42,195,152, .1);
+    --bgcolor-TUSDT: rgb(122, 6, 199, .1);
+
+    /*--maincolor*/
+    --color-hub: #527ceb;
+    --color-MYR: #2ac398;
+    --color-TUSDT: #7a06c7;
+
+    --colorlink-hub: rgba(82, 124, 235, 0.9);
+    --colorlink-MYR: rgba(42, 195, 152, 0.9);
+    --colorlink-TUSDT: rgb(132, 1, 219, 0.9);
+
+    --colorbtn-hub: rgba(82, 124, 235, 0.3);
+    --colorbtn-MYR: rgba(42,195,152,.3);
+    --colorbtn-TUSDT: rgb(132, 1, 219, 0.3);
+
+    --colortable-hub: rgba(82, 124, 235, 0.2);
+    --colortable-MYR: rgba(42,195,152,.2);
+    --colortable-TUSDT: rgb(132, 1, 219, 0.2);
+
+    --colordark-hub: #0d34a0;
+    --colordark-MYR: #1F915C;
+    --colordark-TUSDT: #580391;
+}
+
 .bg-hightlight {
     background-color: #FDEECB !important;
     border: 1px solid #FFF !important;
@@ -41,12 +68,12 @@ header {
 }
 
 .loginForm [type="submit"], .loginForm [type="submit"]:focus, .loginForm [type="submit"]:active {
-    border-color: #2AC398;
-    background: rgb(42,195,152);
-    background: -moz-linear-gradient(-45deg,  rgba(42,195,152,1) 0%, rgba(29,193,147,1) 100%);
-    background: -webkit-linear-gradient(-45deg,  rgba(42,195,152,1) 0%,rgba(29,193,147,1) 100%);
-    background: linear-gradient(135deg,  rgba(42,195,152,1) 0%,rgba(29,193,147,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2ac398', endColorstr='#1dc193',GradientType=1 );
+    border-color: var(--maincolor);
+    background: var(--maincolor);
+    background: -moz-linear-gradient(-45deg,  var(--maincolor) 0%, rgba(29,193,147,1) 100%);
+    background: -webkit-linear-gradient(-45deg,  var(--maincolor) 0%,rgba(29,193,147,1) 100%);
+    background: linear-gradient(135deg,  var(--maincolor) 0%,rgba(29,193,147,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='var(--maincolor)', endColorstr='#1dc193',GradientType=1 );
 }
 
 /*
@@ -54,19 +81,19 @@ Color
 */
 
 .shadow-vw {
-    box-shadow: 0 0.1rem 0.2rem 0.05rem rgba(191,230,224,1);
+    box-shadow: 0 0.1rem 0.3rem 0.05rem rgba(191,230,224,1);
 }
 
 .color-vw {
-    color: #2AC398;
+    color: var(--maincolor);
 }
 
 .bg-vw {
-    background-color: #2AC398;
+    background-color: var(--maincolor);
 }
 
 .border-vw {
-    border-color: #2AC398;
+    border-color: var(--maincolor);
 }
 
 .color-vw2 {
@@ -83,40 +110,50 @@ Color
 
 .btn-vw {
     color: #1A3235;
-    background-color: rgba(42,195,152,.3);
+    background-color: var(--btncolor);
 }
 
 .btn-vw:hover {
-    color: #2AC398;
-    background-color: rgba(25,50,53,.8);
+    color: var(--maincolor);
+    background-color: rgba(115, 122, 122, 0.8);
+}
+
+.btn-ag {
+    color: #ffffff;
+    background-color: #007bff;
+}
+
+.btn-ag:hover {
+    color: #ffffff;
+    background-color: #0056b3;
 }
 
 .btn-primary {
     --bs-btn-color: #fff;
-    --bs-btn-bg: #2AC398;
-    --bs-btn-border-color: #2AC398;
+    --bs-btn-bg: var(--maincolor);
+    --bs-btn-border-color: var(--maincolor);
     --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #1BC192;
-    --bs-btn-hover-border-color: #1BC192;
+    --bs-btn-hover-bg: var(--hovercolor);
+    --bs-btn-hover-border-color: var(--hovercolor);
     --bs-btn-focus-shadow-rgb: 49, 132, 253;
     --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: #1BC192;
-    --bs-btn-active-border-color: #82BFAD;
+    --bs-btn-active-bg: var(--hovercolor);
+    --bs-btn-active-border-color: var(--btncolor)
     --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
     --bs-btn-disabled-color: #fff;
-    --bs-btn-disabled-bg: #82BFAD;
-    --bs-btn-disabled-border-color: #82BFAD;
+    --bs-btn-disabled-bg: var(--btncolor);
+    --bs-btn-disabled-border-color: var(--btncolor);
 }
 
 .active>.page-link, .page-link.active {
     z-index: 3;
     color: #FFF;
-    background-color: #2AC398;
-    border-color: #2AC398;
+    background-color: var(--maincolor);
+    border-color: var(--maincolor);
 }
 
 .page-link {
-    color: #2AC398;
+    color: var(--maincolor);
 }
 
 .page-link:hover {
@@ -124,25 +161,85 @@ Color
 }
 
 .input-group-text {
-    color: #1F915C;
-    background-color: rgba(42,195,152,.2);
-    border: 1px solid rgba(42,195,152,.2);
+    color: var(--darkcolor);
+    background-color: var(--tablecolor);
+    border: 1px solid var(--tablecolor);
 }
 
 .form-control, .form-select {
     /* border: 1px solid #FFF; */
     /* box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important; */
     /* box-shadow: 0 .125rem .25rem rgba(42,195,152,.3)!important; */
-    border: 1px solid rgba(42,195,152,.2);
+    border: 1px solid var(--tablecolor);
 }
 
 .input-group .form-control, .input-group .form-select {
     box-shadow: unset !important;
-    border: 1px solid rgba(42,195,152,.3);
+    border: 1px solid var(--btncolor);
 }
 
 .table-style {
-    color: #1F915C;
-    background-color: rgba(42,195,152,.2);
+    color: var(--darkcolor);
+    background-color: var(--tablecolor);
     /* border: 1px solid rgba(42,195,152,.2); */
+}
+
+/*
+Currency Card
+*/
+.userCurrency > a {
+    background-color:#2ca58b;
+    text-decoration: none;
+    color:#ffffff
+}
+
+.userCurrency > a:hover {
+    background-color:#3fd4b4;
+    text-decoration: none;
+    color:#ffffff
+}
+
+.stat {
+    align-items:center;
+    background:#d3e2f7;
+    border-radius:50%;
+    color:#3b7ddd;
+    display:flex;
+    height:40px;
+    justify-content:center;
+    width:40px
+}
+
+.stat i {
+    stroke-width:1.5;
+    color:inherit!important;
+    font-size:30px;
+    height:30px;
+    width:30px
+}
+
+/*currency icon*/
+.stat i.MYR {
+    background: url('../../assets/img/currency/myr.png') no-repeat center center;
+    background-size: 100%;
+}
+
+.stat i.TUSDT {
+    background: url('../../assets/img/currency/tusdt.png') no-repeat center center;
+    background-size: 100%;
+}
+
+.stat i.VND {
+    background: url('../../assets/img/currency/vnd.png') no-repeat center center;
+    background-size: 100%;
+}
+
+.stat i.THB {
+    background: url('../../assets/img/currency/thb.png') no-repeat center center;
+    background-size: 100%;
+}
+
+.stat i.SGD {
+    background: url('../../assets/img/currency/sgd.png') no-repeat center center;
+    background-size: 100%;
 }

@@ -1,13 +1,14 @@
 <header class="navbar navbar-expand-lg navbar-dark sticky-top flex-md-nowrap p-0">
     <div class="navbar-brand col-md-3 col-lg-2 me-0 p-0" href="javascript:void(0);">
         <a href="javascript:void(0);" class="d-inline-block text-decoration-none custom-nav-toggle d-xl-none d-md-none d-block" data-bs-toggle="collapse" data-bs-target="#topmenu" aria-controls="topmenu" aria-expanded="false" aria-label="Toggle navigation">
-            <i class="bx bx-menu-alt-left"></i>
+            <i class="bx bx-menu"></i>
         </a>
-        <span class="d-xl-inline-block d-md-inline-block d-none custom-nav-toggle"><?=$_ENV['company'];?></span>
+        <span class="d-xl-inline-block d-md-inline-block d-none custom-nav-toggle"><?=$_ENV['company'];?> - <?=$_SESSION['apibycurrency'];?></span>
     </div>
 
-    <section class="px-3">
+    <section class="px-1">
         <label><?=lang('Label.balance');?>: <span class="userbalance">---</span><a class="text-decoration-none text-dark ms-1" href="javascript:void(0);" onclick="refreshProfile();"><i class="bx bx-refresh ms-1"></i></a></label>
+        <a class="btn btn-ag btn-sm ms-2" href="<?=base_url('dashboard-hub');?>">AgentHub</a>
     </section>
 
     <ul class="nav px-lg-3 px-md-3 px-1 ms-auto">
@@ -132,7 +133,7 @@
                         <a class="nav-link dropdown-toggle" href="#" id="account-collapse" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="las la-user-friends me-1"></i><?=lang('Label.agent');?></a>
                         <ul class="dropdown-menu border-white rounded-0 m-0" aria-labelledby="account-collapse">
                             <li><a class="dropdown-item" href="<?=base_url('agent');?>"><i class="las la-user-secret me-1"></i><?=lang('Nav.aglist');?></a></li>
-                            <li><a class="dropdown-item" href="<?=base_url('add-agent');?>"><i class="las la-user-plus me-1"></i><?=lang('Nav.addag');?></a></li>
+                            <!--<li><a class="dropdown-item" href="<?=base_url('add-agent');?>"><i class="las la-user-plus me-1"></i><?//=lang('Nav.addag');?></a></li>-->
                             <!-- <li class="dropdown-divider"></li> -->
                             <!-- <li><a class="dropdown-item" href="<?//=base_url('member');?>"><i class="las la-users me-1"></i><?//=lang('Nav.memberlist');?></a></li> -->
                             <!-- <li><a class="dropdown-item" href="<?//=base_url('add-member');?>"><i class="las la-user-plus me-1"></i><?//=lang('Nav.addmember');?></a></li> -->
@@ -212,15 +213,15 @@
                     </li>
                 <?php endif; ?>
 
-                <?php if( $_SESSION['role']==2 ): ?>
+                <!--<?//php if( $_SESSION['role']==2 ): ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="announcement-collapse" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="las la-user-ninja me-1"></i><?=lang('Nav.subacc');?></a>
                         <ul class="dropdown-menu border-white rounded-0 m-0" aria-labelledby="announcement-collapse">
-                            <li><a class="dropdown-item" href="<?=base_url('sub-account');?>"><i class="las la-user-ninja me-1"></i><?=lang('Nav.subacclist');?></a></li>
-                            <li><a class="dropdown-item" href="<?=base_url('sub-account/add');?>"><i class="las la-user-plus me-1"></i><?=lang('Nav.addsubacc');?></a></li>
+                            <li><a class="dropdown-item" href="<?//=base_url('sub-account');?>"><i class="las la-user-ninja me-1"></i><?//=lang('Nav.subacclist');?></a></li>
+                            <li><a class="dropdown-item" href="<?//=base_url('sub-account/add');?>"><i class="las la-user-plus me-1"></i><?//=lang('Nav.addsubacc');?></a></li>
                         </ul>
                     </li>
-                <?php endif; ?>
+                <?//php endif; ?>-->
                 
                 <?php if( $_SESSION['role']==2 || (($_SESSION['uplinerole']==2 && $_SESSION['role']==5) && $_SESSION['usersearch']==1) ): ?>
                     <li class="nav-item"><a class="nav-link" href="<?=base_url('user-search');?>"><i class="las la-search me-1"></i><?=lang('Nav.usearch');?></a></li>

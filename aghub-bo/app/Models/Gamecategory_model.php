@@ -4,7 +4,7 @@ use CodeIgniter\Model;
 
 class Gamecategory_model extends Model
 {
-    protected $gameCategoryList = 'http://10.148.0.10:7996/settings/gamecategory/getgamecategorylist';
+    protected $gameCategoryList = '/settings/gamecategory/getgamecategorylist';
 
     public function __construct()
 	{
@@ -16,7 +16,13 @@ class Gamecategory_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->gameCategoryList);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->gameCategoryList);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->gameCategoryList);
+        endif;
+        
+        //$ch = curl_init($this->gameCategoryList);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);

@@ -490,8 +490,8 @@ class Balance_control extends BaseController
 
                 $btngame = '<button class="btn btn-light btn-sm getupline ms-1" data-uid="'.base64_encode($ph['toUserId']).'"><i class="bx bxs-user-account"></i></button>';
 
-                $action = '<div class="btn-group" role="group">';
-                $action .= '<button type="button" class="btn btn-danger btn-sm bg-gradient" onclick="permission(\''.base64_encode($ph['paymentId']).'\',\''.$ph['toLoginId'].'\',\'2\')">'.lang('Nav.reject').'</button>';
+                $action = '<div class="btn-groups text-nowrap" role="group">';
+                $action .= '<button type="button" class="btn btn-danger btn-sm bg-gradient me-4" onclick="permission(\''.base64_encode($ph['paymentId']).'\',\''.$ph['toLoginId'].'\',\'2\')">'.lang('Nav.reject').'</button>';
                 $action .= '<button type="button" class="btn btn-success btn-sm bg-gradient" onclick="permission(\''.base64_encode($ph['paymentId']).'\',\''.$ph['toLoginId'].'\',\'1\')">'.lang('Nav.approve').'</button>';
                 $action .= '</div>';
 
@@ -607,8 +607,8 @@ class Balance_control extends BaseController
                     $relatedCard = '';
                 endif;
 
-                $action = '<div class="btn-group" role="group">';
-                $action .= '<button type="button" class="btn btn-danger btn-sm bg-gradient" onclick="permission(\''.base64_encode($ph['paymentId']).'\',\''.$ph['toLoginId'].'\',\'2\')">'.lang('Nav.reject').'</button>';
+                $action = '<div class="btn-groups text-nowrap" role="group">';
+                $action .= '<button type="button" class="btn btn-danger btn-sm bg-gradient me-4" onclick="permission(\''.base64_encode($ph['paymentId']).'\',\''.$ph['toLoginId'].'\',\'2\')">'.lang('Nav.reject').'</button>';
                 $action .= '<button type="button" class="btn btn-success btn-sm bg-gradient" onclick="permission(\''.base64_encode($ph['paymentId']).'\',\''.$ph['toLoginId'].'\',\'1\')">'.lang('Nav.approve').'</button>';
                 $action .= '</div>';
 

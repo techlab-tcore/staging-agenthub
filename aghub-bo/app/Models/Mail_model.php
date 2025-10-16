@@ -4,11 +4,11 @@ use CodeIgniter\Model;
 
 class Mail_model extends Model
 {
-    protected $mailList = 'http://10.148.0.10:7996/mailbox/getmailboxlist';
-    protected $mailSelfList = 'http://10.148.0.10:7996/mailbox/getselfmailboxlist';
-    protected $mail = 'http://10.148.0.10:7996/mailbox/getmailbox';
-    protected $addMail = 'http://10.148.0.10:7996/mailbox/addmailbox';
-    protected $editMail = 'http://10.148.0.10:7996/mailbox/editmail';
+    protected $mailList = '/mailbox/getmailboxlist';
+    protected $mailSelfList = '/mailbox/getselfmailboxlist';
+    protected $mail = '/mailbox/getmailbox';
+    protected $addMail = '/mailbox/addmailbox';
+    protected $editMail = '/mailbox/editmail';
 
     public function __construct()
 	{
@@ -20,7 +20,13 @@ class Mail_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->editMail);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->editMail);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->editMail);
+        endif;
+        
+        //$ch = curl_init($this->editMail);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -42,7 +48,13 @@ class Mail_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->addMail);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->addMail);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->addMail);
+        endif;
+
+        // $ch = curl_init($this->addMail);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -64,7 +76,13 @@ class Mail_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->mail);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->mail);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->mail);
+        endif;
+
+        //$ch = curl_init($this->mail);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -86,7 +104,13 @@ class Mail_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->mailSelfList);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->mailSelfList);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->mailSelfList);
+        endif;
+        
+        //$ch = curl_init($this->mailSelfList);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -108,7 +132,13 @@ class Mail_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->mailList);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->mailList);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->mailList);
+        endif;
+        
+        //$ch = curl_init($this->mailList);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);

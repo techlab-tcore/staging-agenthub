@@ -9,6 +9,37 @@ Copyright 2019
     height: 100%;
 } */
 
+:root {
+    --bgcolor-hub: rgb(82, 124, 235, .1);
+    --bgcolor-MYR: rgba(42,195,152, .1);
+    --bgcolor-TUSDT: rgb(122, 6, 199, .1);
+
+    /*--maincolor*/
+    --color-hub: #527ceb;
+    --color-MYR: #2AC398;
+    --color-TUSDT: #7a06c7;
+
+    --colorhover-hub: #2356ff;
+    --colorhover-MYR: #01DC66;
+    --colorhover-TUSDT: #9900ff;
+
+    --colorlink-hub: rgba(82, 124, 235, 0.9);
+    --colorlink-MYR: rgba(42, 195, 152, 0.9);
+    --colorlink-TUSDT: rgb(132, 1, 219, 0.9);
+
+    --colorbtn-hub: rgba(82, 124, 235, 0.3);
+    --colorbtn-MYR: rgba(42,195,152,.3);
+    --colorbtn-TUSDT: rgb(132, 1, 219, 0.3);
+
+    --colortable-hub: rgba(82, 124, 235, 0.2);
+    --colortable-MYR: rgba(42,195,152,.2);
+    --colortable-TUSDT: rgb(132, 1, 219, 0.2);
+
+    --colordark-hub: #0d34a0;
+    --colordark-MYR: #1F915C;
+    --colordark-TUSDT: #580391;
+}
+
 main {
     margin-bottom: 3rem;
 }
@@ -25,16 +56,16 @@ body {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-	background-color: rgba(42,195,152,.1);
+	background-color: var(--bgcolor);
     font-size: .9rem;
 }
 
 a {
-    color: #2AC398;
+    color: var(--maincolor);
 }
 
 a:hover, a:focus, a:active {
-    color: #01DC66;
+    color: var(--hovercolor);
 }
 
 a:focus:active, button:focus:active {
@@ -52,17 +83,17 @@ select:focus {
 
 ::selection {
 	color: #FFF;
-	background-color: #01DC66;
+	background-color: var(--hovercolor);
 }
 
 ::-moz-selection {
 	color: #FFF;
-	background-color: #01DC66;
+	background-color: var(--hovercolor);
 }
 
 ::-webkit-selection {
 	color: #FFF;
-	background-color: #01DC66;
+	background-color: var(--hovercolor);
 }
 
 ::-webkit-scrollbar {
@@ -89,12 +120,12 @@ select:focus {
 }
 
 .form-control:focus {
-    border-color: #2AC398 !important;
+    border-color: var(--maincolor) !important;
 }
 
 .form-check-input:checked {
-    background-color: #2AC398 !important;
-    border-color: #2AC398 !important;
+    background-color: var(--maincolor) !important;
+    border-color: var(--maincolor) !important;
     box-shadow: unset !important;
 }
 
@@ -139,9 +170,9 @@ tr.shown td.details-control {
     background: url('../../assets/img/details_close.svg') no-repeat center center;
 }
 
-.form-select {
+/*.form-select {
     max-width: max-content !important;
-}
+}*/
 
 /*
 Menu
@@ -205,7 +236,7 @@ Menu
 
 .topmenu .dropdown-toggle[aria-expanded="true"] {
     color: rgba(255, 255, 255, 1) !important;
-    background: rgba(42, 195, 152, .9);
+    background: var(--linkcolor);
 }
 
 .dropdown-toggle[aria-expanded="true"]::after {
@@ -214,7 +245,7 @@ Menu
 
 .dropdown-menu a:hover,
 .dropdown-menu a:focus {
-    color: #2AC398 !important;
+    color: var(--maincolor) !important;
 }
 
 header .dropdown-toggle::after {
@@ -231,10 +262,20 @@ header .dropdown-toggle::after {
 }
 
 header .navbar-brand {
-    background-color: #2AC398;
+    background-color: var(--maincolor);
 }
 
-.navbar-brand {
+header .navbar-brand-hub {
+    border-color: var(--maincolor);
+    background: var(--maincolor);
+    background: -moz-linear-gradient(-45deg,  var(--maincolor) 0%, rgba(29,193,147,1) 100%);
+    background: -webkit-linear-gradient(-45deg,  var(--maincolor) 0%,rgba(29,193,147,1) 100%);
+    background: linear-gradient(135deg,  var(--maincolor) 0%,rgba(29,193,147,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='var(--maincolor)', endColorstr='#1dc193',GradientType=1 );
+}
+
+.navbar-brand,
+.navbar-brand-hub {
     padding-top: .75rem;
     padding-bottom: .75rem;
     font-size: 1rem;

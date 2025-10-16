@@ -4,8 +4,8 @@ use CodeIgniter\Model;
 
 class Fake_model extends Model
 {
-    protected $fakeRecord = 'http://10.148.0.10:7996/fakerecord/get';
-    protected $addFakeRecord = 'http://10.148.0.10:7996/fakerecord/add';
+    protected $fakeRecord = '/fakerecord/get';
+    protected $addFakeRecord = '/fakerecord/add';
 
 
     public function __construct()
@@ -18,7 +18,14 @@ class Fake_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->addFakeRecord);
+
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->addFakeRecord);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->addFakeRecord);
+        endif;
+
+        //$ch = curl_init($this->addFakeRecord);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -40,7 +47,13 @@ class Fake_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->fakeRecord);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->fakeRecord);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->fakeRecord);
+        endif;
+        
+        //$ch = curl_init($this->fakeRecord);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);

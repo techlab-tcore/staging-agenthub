@@ -4,10 +4,10 @@ use CodeIgniter\Model;
 
 class Game_model extends Model
 {
-    protected $gameList = 'http://10.148.0.10:7996/settings/game/getgamelist';
-    protected $game = 'http://10.148.0.10:7996/settings/game/getgame';
-    protected $addGame = 'http://10.148.0.10:7996/settings/game/addgame';
-    protected $editGame = 'http://10.148.0.10:7996/settings/game/editgame';
+    protected $gameList = '/settings/game/getgamelist';
+    protected $game = '/settings/game/getgame';
+    protected $addGame = '/settings/game/addgame';
+    protected $editGame = '/settings/game/editgame';
 
     public function __construct()
 	{
@@ -19,7 +19,14 @@ class Game_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->editGame);
+        
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->editGame);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->editGame);
+        endif;
+        
+        //$ch = curl_init($this->editGame);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -41,7 +48,13 @@ class Game_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->addGame);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->addGame);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->addGame);
+        endif;
+        
+        //$ch = curl_init($this->addGame);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -63,7 +76,13 @@ class Game_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->game);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->game);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->game);
+        endif;
+        
+        //$ch = curl_init($this->game);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -85,7 +104,13 @@ class Game_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->gameList);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->gameList);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->gameList);
+        endif;
+
+        //$ch = curl_init($this->gameList);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);

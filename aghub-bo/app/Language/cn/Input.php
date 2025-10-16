@@ -145,7 +145,7 @@ return [
     'minexceedwithdrawalcharges' => '超出提款的最低費用',
     'checkturnover' => '检查流水',
     'code' => '代码',
-    'currency' => '币种',
+    'currency' => '货币',
     'address' => '住址',
     'recipient' => '收件者',
     'frmwallet' => '从钱包',

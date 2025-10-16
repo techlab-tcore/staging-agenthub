@@ -4,8 +4,8 @@ use CodeIgniter\Model;
 
 class Paymentprovider_model extends Model
 {
-    protected $paymentProviderList = 'http://10.148.0.10:7996/bank/getlist';
-    protected $paymentProvider = 'http://10.148.0.10:7996/bank/get';
+    protected $paymentProviderList = '/bank/getlist';
+    protected $paymentProvider = '/bank/get';
 
     public function __construct()
 	{
@@ -17,7 +17,13 @@ class Paymentprovider_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->paymentProvider);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->paymentProvider);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->paymentProvider);
+        endif;
+        
+        //$ch = curl_init($this->paymentProvider);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -39,7 +45,13 @@ class Paymentprovider_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->paymentProviderList);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->paymentProviderList);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->paymentProviderList);
+        endif;
+        
+        //$ch = curl_init($this->paymentProviderList);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);

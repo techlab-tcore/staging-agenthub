@@ -139,7 +139,7 @@ abstract class BaseController extends Controller
 
         // Check Permission
 		if( isset($_SESSION['role']) && $_SESSION['role']==5 ):
-			$user = $this->user_model->selectUser(['userid' => $_SESSION['token']]);
+			$user = $this->user_model->selectUserHub(['userid' => $_SESSION['token']]);
 			if( $user['code']==1 && $user['data']!=[] ):
 				$permission = json_decode($user['data']['permission']);
 				$transaction = !isset($permission->major->transaction) ? 0 : (int)$permission->major->transaction;

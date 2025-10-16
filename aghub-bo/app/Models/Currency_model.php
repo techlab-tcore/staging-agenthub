@@ -4,10 +4,10 @@ use CodeIgniter\Model;
 
 class Currency_model extends Model
 {
-    protected $currencyList = 'http://10.148.0.10:7996/settings/currency/getcurrencylist';
-    protected $currency = 'http://10.148.0.10:7996/settings/currency/getcurrency';
+    protected $currencyList = '/settings/currency/getcurrencylist';
+    protected $currency = '/settings/currency/getcurrency';
 
-    protected $editCurrency = 'http://10.148.0.10:7996/settings/currency/editcurrency';
+    protected $editCurrency = '/settings/currency/editcurrency';
 
 
     public function __construct()
@@ -20,7 +20,13 @@ class Currency_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->editCurrency);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->editCurrency);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->editCurrency);
+        endif;
+        
+        //$ch = curl_init($this->editCurrency);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -42,7 +48,13 @@ class Currency_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->currency);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->currency);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->currency);
+        endif;
+
+        //$ch = curl_init($this->currency);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -64,7 +76,13 @@ class Currency_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->currencyList);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->currencyList);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->currencyList);
+        endif;
+        
+        //$ch = curl_init($this->currencyList);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);

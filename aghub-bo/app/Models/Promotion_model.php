@@ -4,21 +4,21 @@ use CodeIgniter\Model;
 
 class Promotion_model extends Model
 {
-    protected $promotionList = 'http://10.148.0.10:7996/promotion/getlist';
-    protected $promotion = 'http://10.148.0.10:7996/promotion/get';
-    protected $addPromotion = 'http://10.148.0.10:7996/promotion/add';
-    protected $editPromotion = 'http://10.148.0.10:7996/promotion/edit';
+    protected $promotionList = '/promotion/getlist';
+    protected $promotion = '/promotion/get';
+    protected $addPromotion = '/promotion/add';
+    protected $editPromotion = '/promotion/edit';
 
-    protected $DiyPromoList = 'http://10.148.0.10:7996/playerpromotion/getlist';
-    protected $DiyPromo = 'http://10.148.0.10:7996/playerpromotion/get';
-    protected $addDiyPromo = 'http://10.148.0.10:7996/playerpromotion/add';
-    protected $editDiyPromo = 'http://10.148.0.10:7996/playerpromotion/edit';
-    protected $triggerDiyPromo = 'http://10.148.0.10:7996/playerpromotion/recordplayerpromotion';
-    protected $DiyPromoSelfHistory = 'http://10.148.0.10:7996/playerpromotion/selfplayerpromotionhistory';
-    protected $DiyPromoHistory = 'http://10.148.0.10:7996/playerpromotion/playerpromotionhistory';
+    protected $DiyPromoList = '/playerpromotion/getlist';
+    protected $DiyPromo = '/playerpromotion/get';
+    protected $addDiyPromo = '/playerpromotion/add';
+    protected $editDiyPromo = '/playerpromotion/edit';
+    protected $triggerDiyPromo = '/playerpromotion/recordplayerpromotion';
+    protected $DiyPromoSelfHistory = '/playerpromotion/selfplayerpromotionhistory';
+    protected $DiyPromoHistory = '/playerpromotion/playerpromotionhistory';
 
-    protected $afterPayList = 'http://10.148.0.10:7996/afterpay/getafterpaylist';
-    protected $incompleteAfterPayList = 'http://10.148.0.10:7996/afterpay/getincompleteafterpaylist';
+    protected $afterPayList = '/afterpay/getafterpaylist';
+    protected $incompleteAfterPayList = '/afterpay/getincompleteafterpaylist';
 
     public function __construct()
 	{
@@ -30,7 +30,13 @@ class Promotion_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->incompleteAfterPayList);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->incompleteAfterPayList);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->incompleteAfterPayList);
+        endif;
+        
+        //$ch = curl_init($this->incompleteAfterPayList);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -52,7 +58,13 @@ class Promotion_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->afterPayList);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->afterPayList);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->afterPayList);
+        endif;       
+        
+        //$ch = curl_init($this->afterPayList);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -74,7 +86,13 @@ class Promotion_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->DiyPromoHistory);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->DiyPromoHistory);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->DiyPromoHistory);
+        endif;
+        
+        //$ch = curl_init($this->DiyPromoHistory);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -96,7 +114,13 @@ class Promotion_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->editDiyPromo);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->editDiyPromo);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->editDiyPromo);
+        endif;
+        
+        //$ch = curl_init($this->editDiyPromo);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -118,7 +142,13 @@ class Promotion_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->addDiyPromo);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->addDiyPromo);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->addDiyPromo);
+        endif;
+        
+        //$ch = curl_init($this->addDiyPromo);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -140,7 +170,13 @@ class Promotion_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->DiyPromo);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->DiyPromo);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->DiyPromo);
+        endif;
+        
+        //$ch = curl_init($this->DiyPromo);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -162,7 +198,13 @@ class Promotion_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->DiyPromoList);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->DiyPromoList);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->DiyPromoList);
+        endif;
+        
+        //$ch = curl_init($this->DiyPromoList);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -184,7 +226,13 @@ class Promotion_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->editPromotion);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->editPromotion);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->editPromotion);
+        endif;
+        
+        //$ch = curl_init($this->editPromotion);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -206,7 +254,13 @@ class Promotion_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->addPromotion);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->addPromotion);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->addPromotion);
+        endif;
+
+        //$ch = curl_init($this->addPromotion);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -228,7 +282,13 @@ class Promotion_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->promotion);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->promotion);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->promotion);
+        endif;
+        
+        //$ch = curl_init($this->promotion);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -250,7 +310,13 @@ class Promotion_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->promotionList);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->promotionList);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->promotionList);
+        endif;
+        
+        //$ch = curl_init($this->promotionList);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);

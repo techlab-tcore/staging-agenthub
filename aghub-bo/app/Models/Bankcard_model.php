@@ -4,11 +4,11 @@ use CodeIgniter\Model;
 
 class Bankcard_model extends Model
 {
-    protected $bankCardList = 'http://10.148.0.10:7996/bankcard/getlist';
-    protected $bankCard = 'http://10.148.0.10:7996/bankcard/get';
-    protected $addBankCard = 'http://10.148.0.10:7996/bankcard/add';
-    protected $editBankCard = 'http://10.148.0.10:7996/bankcard/edit';
-    protected $summaryBankCard = 'http://10.148.0.10:7996/bankcard/getsummarylist';
+    protected $bankCardList = '/bankcard/getlist';
+    protected $bankCard = '/bankcard/get';
+    protected $addBankCard = '/bankcard/add';
+    protected $editBankCard = '/bankcard/edit';
+    protected $summaryBankCard = '/bankcard/getsummarylist';
 
     public function __construct()
 	{
@@ -20,7 +20,12 @@ class Bankcard_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->editBankCard);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->editBankCard);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->editBankCard);
+        endif;
+        //$ch = curl_init($this->editBankCard);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -42,7 +47,13 @@ class Bankcard_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->addBankCard);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->addBankCard);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->addBankCard);
+        endif;
+        
+        //$ch = curl_init($this->addBankCard);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -64,7 +75,13 @@ class Bankcard_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->bankCard);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->bankCard);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->bankCard);
+        endif;
+        
+        //$ch = curl_init($this->bankCard);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -86,7 +103,13 @@ class Bankcard_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->bankCardList);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->bankCardList);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->bankCardList);
+        endif;
+
+        //$ch = curl_init($this->bankCardList);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);

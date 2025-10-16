@@ -44,8 +44,9 @@ class General_control extends BaseController
 	{
 		if( session()->get('logged_in') ): return redirect()->to(base_url('dashboard')); endif;
 		$data['session'] = isset($_SESSION['logged_in']) ? true : false;
+		$data['templateColor'] = 'hub';
 		
-		echo view('template/start');
+		echo view('template/start',$data);
         echo view('index');
 		echo view('template/end',$data);
 	}
@@ -86,11 +87,16 @@ class General_control extends BaseController
 		$data['ps'] = $ps;
 		$data['ptps'] = $res['ptpsPercentage'];
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('dashboard',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('dashboard',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	/*
@@ -104,11 +110,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.gameidsearch');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('usersearch-gameid',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('usersearch-gameid',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_userSearch()
@@ -117,12 +128,18 @@ class General_control extends BaseController
 		$data['session'] = isset($_SESSION['logged_in']) ? true : false;
 
 		$data['secTitle'] = lang('Nav.usearch');
+		//$data['secTitle'] = $_SESSION['uplinerole'];
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('usersearch',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('usersearch',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	/*
@@ -138,11 +155,16 @@ class General_control extends BaseController
 
 		$data['parent'] = $parent;
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('gameprovider/closedlist',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('gameprovider/closedlist',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_games($provider)
@@ -153,11 +175,16 @@ class General_control extends BaseController
 		$data['secTitle'] = lang('Nav.gamelist');
 		$data['provider'] = $provider;
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('gameprovider/games',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('gameprovider/games',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_gameProvider()
@@ -167,11 +194,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.gp');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('gameprovider/index',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('gameprovider/index',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	/*
@@ -186,11 +218,16 @@ class General_control extends BaseController
 		$data['secTitle'] = lang('Nav.profitreport');
 		$data['parent'] = $parent ? $parent : base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('report/personal-shares',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('report/personal-shares',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_psReportGroup($parent = FALSE)
@@ -201,11 +238,16 @@ class General_control extends BaseController
 		$data['secTitle'] = lang('Nav.sharesreport');
 		$data['parent'] = $parent ? $parent : base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('report/group-shares',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('report/group-shares',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 
@@ -217,11 +259,16 @@ class General_control extends BaseController
 		$data['secTitle'] = lang('Nav.profitreport');
 		$data['parent'] = $parent ? $parent : base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('report/psgroup4-2',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('report/psgroup4-2',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_psReport44($parent = FALSE)
@@ -232,11 +279,16 @@ class General_control extends BaseController
 		$data['secTitle'] = lang('Nav.sharesreport');
 		$data['parent'] = $parent ? $parent : base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('report/psgroup4-1',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('report/psgroup4-1',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 
@@ -249,11 +301,16 @@ class General_control extends BaseController
 		$data['secTitle'] = lang('Nav.profitreport');
 		$data['parent'] = $parent ? $parent : base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('report/psgroup-2',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('report/psgroup-2',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_psReport($parent = FALSE)
@@ -264,11 +321,16 @@ class General_control extends BaseController
 		$data['secTitle'] = lang('Nav.sharesreport');
 		$data['parent'] = $parent ? $parent : base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('report/psgroup',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('report/psgroup',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_sharesLottoListHistoryReport($parent = FALSE)
@@ -280,11 +342,16 @@ class General_control extends BaseController
 
 		$data['parent'] = $parent ? $parent : base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('report/lottery-history',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('report/lottery-history',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_sharesLottoListReport($parent = FALSE)
@@ -296,11 +363,16 @@ class General_control extends BaseController
 
 		$data['parent'] = $parent ? $parent : base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('report/lottery-list',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('report/lottery-list',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_sharesListHistoryReport($parent = FALSE)
@@ -312,11 +384,16 @@ class General_control extends BaseController
 
 		$data['parent'] = $parent ? $parent : base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('report/shares-history',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('report/shares-history',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_sharesListReport($parent = FALSE)
@@ -328,11 +405,16 @@ class General_control extends BaseController
 
 		$data['parent'] = $parent ? $parent : base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('report/shares-list',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('report/shares-list',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_fightListHistoryReport($parent = FALSE)
@@ -344,11 +426,16 @@ class General_control extends BaseController
 
 		$data['parent'] = $parent ? $parent : base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('report/fight-history',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('report/fight-history',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_fightListReport($parent = FALSE)
@@ -360,11 +447,16 @@ class General_control extends BaseController
 
 		$data['parent'] = $parent ? $parent : base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('report/fight-list',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('report/fight-list',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_depositCommPtReport($parent = FALSE)
@@ -376,11 +468,16 @@ class General_control extends BaseController
 
 		$data['parent'] = $parent ? $parent : base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('report/depcommpt',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('report/depcommpt',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_depositCommReport($parent = FALSE)
@@ -392,11 +489,16 @@ class General_control extends BaseController
 
 		$data['parent'] = $parent ? $parent : base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('report/depcomm',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('report/depcomm',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_refDepCommPtReport($parent = FALSE)
@@ -408,11 +510,16 @@ class General_control extends BaseController
 
 		$data['parent'] = $parent ? $parent : base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('report/refdepcommpt',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('report/refdepcommpt',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_refDepCommReport($parent = FALSE)
@@ -424,11 +531,16 @@ class General_control extends BaseController
 
 		$data['parent'] = $parent ? $parent : base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('report/refdepcomm',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('report/refdepcomm',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_affiliateReport($parent = FALSE)
@@ -440,11 +552,16 @@ class General_control extends BaseController
 
 		$data['parent'] = $parent ? $parent : base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('report/affiliate',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('report/affiliate',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_affiliatePtReport($parent = FALSE)
@@ -456,11 +573,16 @@ class General_control extends BaseController
 
 		$data['parent'] = base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('report/affiliatept',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('report/affiliatept',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_agcommReport($parent = FALSE)
@@ -472,11 +594,16 @@ class General_control extends BaseController
 
 		$data['parent'] = $parent ? $parent : base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('report/agentcomm',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('report/agentcomm',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_agcommPtReport($parent = FALSE)
@@ -488,11 +615,16 @@ class General_control extends BaseController
 
 		$data['parent'] = base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('report/agentcommpt',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('report/agentcommpt',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_jackpotReport($parent = FALSE)
@@ -504,11 +636,16 @@ class General_control extends BaseController
 
 		$data['parent'] = base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('report/jackpot',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('report/jackpot',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_jackpotptReport($parent = FALSE)
@@ -520,11 +657,16 @@ class General_control extends BaseController
 
 		$data['parent'] = base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('report/jackpotpt',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('report/jackpotpt',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_selfGamesReport($parent = FALSE)
@@ -536,11 +678,16 @@ class General_control extends BaseController
 
 		$data['parent'] = $parent ? $parent : base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('report/selfgames',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('report/selfgames',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_refWinloseReport($parent = FALSE)
@@ -552,11 +699,16 @@ class General_control extends BaseController
 
 		$data['parent'] = $parent ? $parent : base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('report/ref-winlose',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('report/ref-winlose',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_winloseReport($parent = FALSE)
@@ -568,11 +720,16 @@ class General_control extends BaseController
 
 		$data['parent'] = $parent ? $parent : base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('report/index',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('report/index',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	/*
@@ -588,11 +745,16 @@ class General_control extends BaseController
 
 		$data['parent'] = $parent;
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('transaction/bet-log',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('transaction/bet-log',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_actualBetLog($parent)
@@ -604,11 +766,16 @@ class General_control extends BaseController
 
 		$data['parent'] = $parent;
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('transaction/actual-betlog',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('transaction/actual-betlog',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_gameBalanceLog($parent)
@@ -620,11 +787,16 @@ class General_control extends BaseController
 
 		$data['parent'] = $parent;
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('transaction/score-log',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('transaction/score-log',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	/*
@@ -638,11 +810,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.claimjackpot');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('transaction/claim-jackpot',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('transaction/claim-jackpot',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_pendingAgentWithdrawal($parent = FALSE)
@@ -654,11 +831,16 @@ class General_control extends BaseController
 
 		$data['parent'] = $parent ? $parent : base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('transaction/agent-withdrawal', $data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('transaction/agent-withdrawal',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_pendingWithdrawal($parent = FALSE)
@@ -670,11 +852,16 @@ class General_control extends BaseController
 
 		$data['parent'] = $parent ? $parent : base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('transaction/withdrawal', $data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start', $data);
+			echo view('template/header');
+			echo view('transaction/withdrawal', $data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_pendingDeposit($parent = FALSE)
@@ -686,11 +873,16 @@ class General_control extends BaseController
 
 		$data['parent'] = $parent ? $parent : base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('transaction/deposit', $data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start', $data);
+			echo view('template/header');
+			echo view('transaction/deposit', $data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_tranxHistory($parent = FALSE)
@@ -702,11 +894,16 @@ class General_control extends BaseController
 
 		$data['parent'] = $parent ? $parent : base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('transaction/index', $data);
-		echo view('template/footer');
-		echo view('template/end', $data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start', $data);
+			echo view('template/header');
+			echo view('transaction/index', $data);
+			echo view('template/footer');
+			echo view('template/end', $data);
+		endif;
 	}
 
 	/*
@@ -720,11 +917,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.settingpromotion');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('promotion/index',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('promotion/index',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_addPromotion()
@@ -734,11 +936,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.addpromo');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('promotion/add-promotion',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('promotion/add-promotion',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_modifyPromotion($promoid)
@@ -749,11 +956,16 @@ class General_control extends BaseController
 		$data['secTitle'] = lang('Nav.modifypromo');
 		$data['promoid'] = $promoid;
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('promotion/edit-promotion',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('promotion/edit-promotion',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_afterPayHistory()
@@ -763,11 +975,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.claimafhistory');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('promotion/afterpay',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('promotion/afterpay',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	/*
@@ -780,11 +997,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.addreadonlypromo');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('content/add-promo-content',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('content/add-promo-content',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_editContent($id,$contentid)
@@ -795,11 +1017,16 @@ class General_control extends BaseController
 		$data['id'] = $id;
 		$data['contentid'] = $contentid;
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('content/edit-promo-content',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('content/edit-promo-content',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_addAffLBContent()
@@ -808,11 +1035,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.addreadonlyafflb');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('content/add-afflb-content',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('content/add-afflb-content',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	/*
@@ -826,11 +1058,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.adminconfig');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('administrator/index',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('administrator/index',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	/*
@@ -844,11 +1081,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.settingcurrency');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('settings/currency',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('settings/currency',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_settingAddFakeRecord()
@@ -911,11 +1153,16 @@ class General_control extends BaseController
 		$data['gp'] = $row;
 		// End Games
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('ptps/add-fake-record',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('ptps/add-fake-record',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_settingFakeRecord()
@@ -925,11 +1172,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.settingfakerecord');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('ptps/fake-record',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('ptps/fake-record',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_companySummary()
@@ -939,11 +1191,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.settingcompsummary');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('ptps/summary',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('ptps/summary',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_agentWithdrawal()
@@ -953,11 +1210,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.settingagentwithdrawal');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('settings/agent-withdrawal-period',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('settings/agent-withdrawal-period',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_companyPtPs()
@@ -1004,11 +1266,16 @@ class General_control extends BaseController
 		$data['psLottoExpenses'] = $psLottoExpenses;
 		// End Company PSPT Settings
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('ptps/index',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('ptps/index',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_settingsPchannel($provider,$merchant)
@@ -1020,11 +1287,16 @@ class General_control extends BaseController
 		$data['provider'] = $provider;
 		$data['merchant'] = $merchant;
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('settings/pchannel',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('settings/pchannel',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_settingsPgateway()
@@ -1034,11 +1306,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.settingpg');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('settings/pgateway',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('settings/pgateway',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_settingsBankCard()
@@ -1048,11 +1325,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.settingbankcard');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('settings/bankcard',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('settings/bankcard',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_settingsAffiliate()
@@ -1062,11 +1344,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.settingaff');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('settings/affiliate',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('settings/affiliate',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_settingsJackpot()
@@ -1076,11 +1363,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.settingjackpot');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('settings/jackpot',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('settings/jackpot',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_settingsAgentCommission($provider)
@@ -1091,11 +1383,16 @@ class General_control extends BaseController
 		$data['secTitle'] = lang('Nav.settingagcomm');
 		$data['provider'] = $provider;
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('settings/index',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('settings/index',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	/*
@@ -1123,11 +1420,16 @@ class General_control extends BaseController
 		$data['psExpenses'] = $psExpenses;
 		// End Agent PTPS
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('agent/ptps',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('agent/ptps',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_agGamePt($parent)
@@ -1139,11 +1441,16 @@ class General_control extends BaseController
 
 		$data['parent'] = $parent;
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('agent/position-taking',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('agent/position-taking',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_addAgent()
@@ -1153,11 +1460,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.addag');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('agent/add-agent',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('agent/add-agent',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_agent($parent=FALSE)
@@ -1169,11 +1481,17 @@ class General_control extends BaseController
 
 		$data['parent'] = $parent ? $parent : base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('agent/index',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			$data['templateColor'] = 'hub';
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('agent/index',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	/*
@@ -1188,11 +1506,16 @@ class General_control extends BaseController
 		$data['secTitle'] = lang('Nav.bankcard');
 		$data['parent'] = $parent;
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('bankcard/index',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('bankcard/index',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_userAffiliate($parent = FALSE)
@@ -1204,11 +1527,16 @@ class General_control extends BaseController
 
 		$data['parent'] = $parent ? $parent : base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('member/affiliate',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('member/affiliate',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	} 
 
 	public function index_addMember($parent=FALSE)
@@ -1218,11 +1546,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.addmember');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('member/add-member',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('member/add-member',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_member($parent=FALSE)
@@ -1234,11 +1567,16 @@ class General_control extends BaseController
 
 		$data['parent'] = $parent ? $parent : base64_encode($_SESSION['token']);
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('member/index',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('member/index',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	/*
@@ -1252,11 +1590,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.subacc');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('subaccount/index',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('subaccount/index',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_addSubAccount()
@@ -1266,11 +1609,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.addsubacc');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('subaccount/add-subacc',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('subaccount/add-subacc',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	/*
@@ -1284,11 +1632,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.exportreport');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('settlement/export',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('settlement/export',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_systemSettlement()
@@ -1298,11 +1651,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.sysettlement');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('settlement/index',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('settlement/index',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	/*
@@ -1316,11 +1674,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.settingbanner');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('banner/index',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('banner/index',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	/*
@@ -1334,11 +1697,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.settingsupport');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('support/index',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('support/index',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	/*
@@ -1352,11 +1720,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.anncs');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('announcement/index',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('announcement/index',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_addAnnouncement()
@@ -1366,11 +1739,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.addannc');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('announcement/add-announcment',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('announcement/add-announcment',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_editAnnouncement($anncid)
@@ -1381,11 +1759,16 @@ class General_control extends BaseController
 		$data['secTitle'] = lang('Nav.editannc');
 		$data['anncid'] = $anncid;
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('announcement/edit-announcment',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('announcement/edit-announcment',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	/*
@@ -1400,11 +1783,16 @@ class General_control extends BaseController
 		$data['secTitle'] = lang('Nav.inbox');
 		$data['parent'] = $parent;
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('mail/index',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('mail/index',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	/*
@@ -1418,11 +1806,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.appversion');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('version/index',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('version/index',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	/*
@@ -1438,11 +1831,16 @@ class General_control extends BaseController
 		$data['id'] = $id;
 		$data['contentid'] = $contentid;
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('content/edit-meta-data',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('content/edit-meta-data',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_addMetaData()
@@ -1452,11 +1850,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.addseoconfig');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('content/add-meta-data',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('content/add-meta-data',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_metaData()
@@ -1466,11 +1869,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.seoconfig');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('content/meta-data',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('content/meta-data',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	/*
@@ -1486,11 +1894,16 @@ class General_control extends BaseController
 		$data['id'] = $id;
 		$data['contentid'] = $contentid;
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('content/edit-news-data',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('content/edit-news-data',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_addNewsData()
@@ -1500,11 +1913,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.addnewsconfig');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('content/add-news-data',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('content/add-news-data',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_newsData()
@@ -1514,11 +1932,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.newsconfig');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('content/news-data',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('content/news-data',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	/*
@@ -1534,11 +1957,16 @@ class General_control extends BaseController
 		$data['id'] = $id;
 		$data['contentid'] = $contentid;
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('content/edit-agcomm-data',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('content/edit-agcomm-data',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 	public function index_addAgcommData()
@@ -1548,11 +1976,16 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.addagcommconfig');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('content/add-agcomm-data',$data);
-		echo view('template/footer');
-		echo view('template/end',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('content/add-agcomm-data',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
 	}
 
 		public function index_adcommData()
@@ -1562,10 +1995,159 @@ class General_control extends BaseController
 
 		$data['secTitle'] = lang('Nav.agcommconfig');
 
-		echo view('template/start');
-		echo view('template/header');
-        echo view('content/agcomm-data',$data);
+		if ( !isset($_SESSION['apibycurrency']) ):
+			return redirect()->to(base_url('dashboard-hub'));
+		else:
+			$data['templateColor'] = $_SESSION['apibycurrency'];
+			echo view('template/start',$data);
+			echo view('template/header');
+			echo view('content/agcomm-data',$data);
+			echo view('template/footer');
+			echo view('template/end',$data);
+		endif;
+	}
+
+	/*
+	Hub
+	*/
+
+	public function index_hub()
+	{
+		if( !session()->get('logged_in') ): return false; endif;
+		$data['session'] = isset($_SESSION['logged_in']) ? true : false;
+
+		$data['secTitle'] = lang('Nav.selectkioskcurrency');
+		$data['templateColor'] = 'hub';
+
+		//unset kiosk api
+		unset($_SESSION['apibycurrency']); 
+
+		//User Currency
+		$payloadUser = [
+			'userid' => $_ENV['host'],
+			'currencycode' => 0
+		];
+		$resCurrency= $this->user_model->selectUserCurrency($payloadUser);
+		$userCurrency = '';
+        if ( $resCurrency['code']==1 && $resCurrency['data']!=[] ):
+			foreach( $resCurrency['data'] as $ph ):
+				if ($ph['existed']==true):
+					switch($ph['currencyCode']):
+						case 0: $currencyCode = 'MYR'; break;
+						case 1: $currencyCode = 'VND'; break;
+						case 2: $currencyCode = 'EUSDT'; break;
+						case 3: $currencyCode = 'TUSDT'; break;
+						case 4: $currencyCode = 'BTC'; break;
+						case 5: $currencyCode = 'USD'; break;
+						case 6: $currencyCode = 'MMK'; break;
+						case 7: $currencyCode = 'EUR'; break;
+						case 8: $currencyCode = 'SGD'; break;
+						case 9: $currencyCode = 'CNY'; break;
+						case 10: $currencyCode = 'THB'; break;
+						case 11: $currencyCode = 'INR'; break;
+						case 12: $currencyCode = 'BND'; break;
+						case 13: $currencyCode = 'BDT'; break;
+						case 14: $currencyCode = 'IDR'; break;
+						default: $currencyCode = '';
+					endswitch;
+
+					if ($ph['status'] == 1):
+						$currencyStatus = '<span class="badge bg-success shadow">'.lang('Label.active').'</span>';
+					else:
+						$currencyStatus = '<span class="badge bg-danger shadow">'.lang('Label.inactive').'</span>';
+					endif;
+
+					$userCurrency .= '<a href="javascript:void(0);" onclick="selectCurrencyKiosk(\''.$currencyCode.'\')" class="card col-xl-4 col-lg-4 col-md-4 col-12 border-light shadow text-decoration-none">';
+					$userCurrency .= '<div class="card-body">';
+					$userCurrency .= '<div class="row">';
+					$userCurrency .= '<div class="col mt-0">';
+					$userCurrency .= '<h5 class="card-title">'.lang('Input.currency').'</h5>';
+					$userCurrency .= '</div>';
+					$userCurrency .= '<div class="col-auto">';
+					$userCurrency .= '<div class="stat text-primary">';
+					$userCurrency .= '<i class="'.$currencyCode.' align-middle"></i>';
+					$userCurrency .= '</div></div></div>';
+					$userCurrency .= '<h1 class="mt-1 mb-3">'.$currencyCode.'</h1>';
+					$userCurrency .= '<div class="mb-0">';
+					$userCurrency .= $currencyStatus;
+					$userCurrency .= '</div></div></a>';
+				endif;
+			endforeach;
+			$data['userCurrency'] = $userCurrency;
+		else:
+			$data['userCurrency'] = '';
+		endif;
+
+		echo view('template/start',$data);
+		echo view('template/header-hub');
+        echo view('dashboard-hub',$data);
 		echo view('template/footer');
 		echo view('template/end',$data);
 	}
+	
+	public function index_hubAgent($parent=FALSE)
+	{
+		if( !session()->get('logged_in') ): return false; endif;
+		$data['session'] = isset($_SESSION['logged_in']) ? true : false;
+
+		$data['secTitle'] = lang('Nav.aglist');
+		$data['templateColor'] = 'hub';
+
+		$data['parent'] = $parent ? $parent : base64_encode($_SESSION['token']);
+
+		echo view('template/start',$data);
+		echo view('template/header-hub');
+        echo view('hub/agent/index',$data);
+		echo view('template/footer');
+		echo view('template/end',$data);
+	}
+
+	public function index_addHubAgent()
+	{
+		if( !session()->get('logged_in') ): return false; endif;
+		$data['session'] = isset($_SESSION['logged_in']) ? true : false;
+
+		$data['secTitle'] = lang('Nav.addag');
+		$data['templateColor'] = 'hub';
+
+		echo view('template/start',$data);
+		echo view('template/header-hub');
+        echo view('hub/agent/add-agent',$data);
+		echo view('template/footer');
+		echo view('template/end',$data);
+	}
+
+	public function index_hubSubaccount()
+	{
+		if( !session()->get('logged_in') ): return false; endif;
+		$data['session'] = isset($_SESSION['logged_in']) ? true : false;
+
+		$data['secTitle'] = lang('Nav.subacc');
+		$data['templateColor'] = 'hub';
+
+		echo view('template/start',$data);
+		echo view('template/header-hub');
+        echo view('hub/subaccount/index',$data);
+		echo view('template/footer');
+		echo view('template/end',$data);
+	}
+
+	public function index_addHubSubAccount()
+	{
+		if( !session()->get('logged_in') ): return false; endif;
+		$data['session'] = isset($_SESSION['logged_in']) ? true : false;
+
+		$data['secTitle'] = lang('Nav.addsubacc');
+		$data['templateColor'] = 'hub';
+
+		echo view('template/start',$data);
+		echo view('template/header-hub');
+        echo view('hub/subaccount/add-subacc',$data);
+		echo view('template/footer');
+		echo view('template/end',$data);
+	}
+
+	/*
+	End Hub
+	*/
 }

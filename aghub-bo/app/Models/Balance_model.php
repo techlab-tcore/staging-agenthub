@@ -4,16 +4,16 @@ use CodeIgniter\Model;
 
 class Balance_model extends Model
 {
-    protected $transactionHistory = 'http://10.148.0.10:7996/payment/getpaymenthistory2';
-    protected $transactionHistory3 = 'http://10.148.0.10:7996/payment/getpaymenthistory3';
-    protected $userTransfer = 'http://10.148.0.10:7996/payment/transfer';
-    protected $userTransferHistory = 'http://10.148.0.10:7996/playertransfer/getplayertransferhistory';
+    protected $transactionHistory = '/payment/getpaymenthistory2';
+    protected $transactionHistory3 = '/payment/getpaymenthistory3';
+    protected $userTransfer = '/payment/transfer';
+    protected $userTransferHistory = '/playertransfer/getplayertransferhistory';
 
-    protected $pending = 'http://10.148.0.10:7996/payment/getpaymentpendinglist2';
-    protected $transactionApproval = 'http://10.148.0.10:7996/payment/approve';
+    protected $pending = '/payment/getpaymentpendinglist2';
+    protected $transactionApproval = '/payment/approve';
 
-    protected $clearTurnover = 'http://10.148.0.10:7996/payment/clearturnover';
-    protected $clearChip = 'http://10.148.0.10:7996/payment/clearchip';
+    protected $clearTurnover = '/payment/clearturnover';
+    protected $clearChip = '/payment/clearchip';
 
     public function __construct()
 	{
@@ -25,7 +25,13 @@ class Balance_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->clearChip);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->clearChip);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->clearChip);
+        endif;
+        
+        //$ch = curl_init($this->clearChip);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -47,7 +53,13 @@ class Balance_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->clearTurnover);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->clearTurnover);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->clearTurnover);
+        endif;
+
+        //$ch = curl_init($this->clearTurnover);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -68,8 +80,14 @@ class Balance_model extends Model
 	{
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
-        
-        $ch = curl_init($this->playerTransferHistory);
+
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->playerTransferHistory);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->playerTransferHistory);
+        endif;
+
+        //$ch = curl_init($this->playerTransferHistory);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -91,7 +109,13 @@ class Balance_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->transactionApproval);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->transactionApproval);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->transactionApproval);
+        endif;
+        
+        //$ch = curl_init($this->transactionApproval);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -113,7 +137,13 @@ class Balance_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->pending);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->pending);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->pending);
+        endif;
+
+        //$ch = curl_init($this->pending);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -134,8 +164,14 @@ class Balance_model extends Model
 	{
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
-        
-        $ch = curl_init($this->userTransfer);
+
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->userTransfer);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->userTransfer);
+        endif;
+
+        //$ch = curl_init($this->userTransfer);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -157,7 +193,13 @@ class Balance_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->userTransferHistory);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->userTransferHistory);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->userTransferHistory);
+        endif;
+        
+        //$ch = curl_init($this->userTransferHistory);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -178,8 +220,14 @@ class Balance_model extends Model
 	{
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
-        
-        $ch = curl_init($this->transactionHistory3);
+
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->transactionHistory3);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->transactionHistory3);
+        endif;
+
+        //$ch = curl_init($this->transactionHistory3);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -201,7 +249,13 @@ class Balance_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->transactionHistory);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->transactionHistory);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->transactionHistory);
+        endif;
+
+        //$ch = curl_init($this->transactionHistory);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);

@@ -169,4 +169,8 @@ return [
     'pendingagwithdrawal' => 'New Agent Withdrawal',
     'notransfercomm' => 'Tiada Kebenaran Wallet Pemindahan',
     'nocreatemember' => 'Tiada Kebanaran Tambah Ahli',
+
+    'kioskbycurrency' => 'Kiosk Ikut Mata Wang',
+    'selectkioskcurrency' => 'Pilih Kiosk Mengikut Mata Wang',
+    'addcurrency' => 'Tambah Mata Wang',
 ];

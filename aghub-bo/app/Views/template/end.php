@@ -25,7 +25,14 @@
                 <div class="mb-3 row">
                     <label class="col-lg-4 col-md-4 col-12 col-form-label"><?=lang('Input.contact');?></label>
                     <div class="col-lg-8 col-md-8 col-12">
-                        <input type="text" class="form-control" name="contact">
+                        <div class="input-group">
+                            <select class="form-select" name="regioncode">
+                            <option value="MYR">(+60)</option>
+                            <option value="SGD">(+65)</option>
+                            </select>
+                            <input type="text" class="form-control" pattern="^[0-9]{8,11}$" name="contact" placeholder="e.g. <?=$_ENV['sampleMobile'];?>">
+                            <small class="form-text"><?=lang('Validation.mobile',[8,11]);?></small>
+                        </div>
                     </div>
                 </div>
                 <div class="mb-3 row">
@@ -713,7 +720,7 @@
 <!--- End Free Credit --->
 
 <!--- Agent Permission --->
-<section class="modal fade modal-agentPermission" id="modal-agentPermission" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal-permission" aria-hidden="true">
+<section class="modal fade modal-agentPermission" id="modal-agentPermission" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal-agentPermission" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -780,10 +787,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
             var formObj = $(this).closest("form");
             $.each($(formObj).serializeArray(), function (index, value) {
                 params[value.name] = value.value;
+                params['usertype'] = '<?=$_SESSION['session'];?>';
                 // params['uid'] = btoa('<?//=$_SESSION['token'];?>');
             });
 
-            $.post('/user/personal-change/user', {
+            $.post('/user/personal-change/user/hub', {
                 params
             }, function(data, status) {
                 const obj = JSON.parse(data);
@@ -829,7 +837,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 params['agentname'] = '<?=$_SESSION['session'];?>';
             });
 
-            $.post('/self/password-change/company', {
+            $.post('/self/password-change/company/hub', {
                 params
             }, function(data, status) {
                 const obj = JSON.parse(data);
@@ -1175,8 +1183,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
         $('.modal').find('form').trigger('reset');
     });
 
-        //agent permit
-        $('.modal-agentPermission form').on('submit', function(e) {
+    //agent permit
+    $('.modal-agentPermission form').on('submit', function(e) {
         e.preventDefault();
 
         if (this.checkValidity() !== false) {
@@ -1210,7 +1218,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 $('.modal-agentPermission form [type=submit]').prop('disabled',false);
             })
             .fail(function() {
-                swal.fire("Error!", "Oopss! There are something wrong. Please try again later.", "error").then(() => { $('.modal-permission form [type=submit]').prop('disabled',false); });
+                swal.fire("Error!", "Oopss! There are something wrong. Please try again later.", "error").then(() => { $('.modal-agentPermission form [type=submit]').prop('disabled',false); });
             });
         }
     });
@@ -2920,18 +2928,20 @@ function selfProfile()
 {
     var params = {};
 
-    $.post('/user/profile', {
+    $.post('/user/profile/hub', {
         params
     }, function(data, status) {
         const obj = JSON.parse(data);
         if( obj.code == 1 ) {
             $('.modal-selfmodify form [name=username]').val(obj.data.loginId);
+            $('.modal-selfmodify form [name=contact]').val(obj.data.contact);
 
-            if( obj.data.currency=='MYR' && obj.data.contact!='' )
-            {
-                $('.modal-selfmodify form [name=contact]').val('0'+obj.data.contact);
+            $('.modal-selfmodify [name=regioncode] option[value=MYR]').removeAttr('selected','selected');
+            $('.modal-selfmodify [name=regioncode] option[value=SGD]').removeAttr('selected','selected');
+            if( obj.data.regionCode=='' ) {
+                $('.modal-selfmodify [name=regioncode] option[value=MYR]').attr('selected','selected');
             } else {
-                $('.modal-selfmodify form [name=contact]').val(obj.data.contact);
+                $('.modal-selfmodify [name=regioncode] option[value=' + obj.data.regionCode + ']').attr('selected','selected');
             }
 
             $('.modal-selfmodify form [name=telegram]').val(obj.data.telegram);
@@ -2973,6 +2983,8 @@ function coordinateProfile(uid)
             $('.modal-modify form [name=remark]').val(obj.data.remark);
             $('.modal-modify form [name=fname]').val(obj.data.name);
 
+            $('.modal-modify [name=regioncode] option[value=MYR]').removeAttr('selected','selected');
+            $('.modal-modify [name=regioncode] option[value=SGD]').removeAttr('selected','selected');
             if( obj.data.regionCode=='' ) {
                 $('.modal-modify [name=regioncode] option[value=MYR]').attr('selected','selected');
             } else {

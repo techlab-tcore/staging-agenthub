@@ -4,8 +4,8 @@ use CodeIgniter\Model;
 
 class Agentcomm_model extends Model
 {
-    protected $agCommHistory = 'http://10.148.0.10:7996/settings/commission/getcommissionhistory';
-    protected $agCommPt = 'http://10.148.0.10:7996/settings/commission/getcommissionpt';
+    protected $agCommHistory = '/settings/commission/getcommissionhistory';
+    protected $agCommPt = '/settings/commission/getcommissionpt';
 
     public function __construct()
 	{
@@ -17,7 +17,13 @@ class Agentcomm_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->agCommPt);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->agCommPt);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->agCommPt);
+        endif;
+        
+        //$ch = curl_init($this->agCommPt);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -39,7 +45,13 @@ class Agentcomm_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->agCommHistory);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->agCommHistory);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->agCommHistory);
+        endif;
+
+        //$ch = curl_init($this->agCommHistory);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);

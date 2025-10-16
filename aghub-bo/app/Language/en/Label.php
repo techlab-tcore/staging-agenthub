@@ -248,4 +248,7 @@ return [
 
     'starttime' => 'Start Time',
     'endtime' => 'End Time',
+
+    'regisbycurrency' => 'Register By Currency',
+
 ];

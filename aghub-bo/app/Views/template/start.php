@@ -31,10 +31,10 @@
 </head>
 
 <!--<body oncontextmenu="event.stopPropagation();">-->
-<body oncontextmenu="return false;">
+<body oncontextmenu="return false;" style="--maincolor: var(--color-<?=$templateColor;?>); --linkcolor: var(--colorlink-<?=$templateColor;?>); --bgcolor: var(--bgcolor-<?=$templateColor;?>); --hovercolor: var(--colorhover-<?=$templateColor;?>); --btncolor: var(--colorbtn-<?=$templateColor;?>); --tablecolor: var(--colortable-<?=$templateColor;?>); --darkcolor: var(--colordark-<?=$templateColor;?>);">
 
 <!--block inspect-->
-<script disable-devtool-auto src='<?=base_url('assets/vendors/block_inspect/block.js');?>' url='https://dl.vw2nw.com/'></script>
+<!--<script disable-devtool-auto src='<?=base_url('assets/vendors/block_inspect/block.js');?>' url='https://dl.vw2nw.com/'></script>
 <script>
 document.onkeydown = function(e) {
     if(event.keyCode == 123) {
@@ -50,5 +50,5 @@ document.onkeydown = function(e) {
         return false;
     }
 }
-</script>
+</script>-->
 <!--end block inspect-->

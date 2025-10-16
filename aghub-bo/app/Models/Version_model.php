@@ -4,9 +4,9 @@ use CodeIgniter\Model;
 
 class Version_model extends Model
 {
-    protected $versionList = 'http://10.148.0.10:7996/settings/version/getversionlist';
-    protected $version = 'http://10.148.0.10:7996/settings/version/version';
-    protected $editVersion = 'http://10.148.0.10:7996/settings/version/editversion';
+    protected $versionList = '/settings/version/getversionlist';
+    protected $version = '/settings/version/version';
+    protected $editVersion = '/settings/version/editversion';
 
     public function __construct()
 	{
@@ -18,7 +18,13 @@ class Version_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->editVersion);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->editVersion);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->editVersion);
+        endif;
+        
+        //$ch = curl_init($this->editVersion);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -40,7 +46,13 @@ class Version_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->version);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->version);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->version);
+        endif;
+        
+        //$ch = curl_init($this->version);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -62,7 +74,13 @@ class Version_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->versionList);
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->versionList);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->versionList);
+        endif;
+        
+        //$ch = curl_init($this->versionList);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);

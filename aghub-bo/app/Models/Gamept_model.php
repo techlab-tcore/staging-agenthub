@@ -4,9 +4,9 @@ use CodeIgniter\Model;
 
 class Gamept_model extends Model
 {
-    protected $gamePtList = 'http://10.148.0.10:7996/settings/gamepts/getgameptslist';
-    protected $editGamePt = 'http://10.148.0.10:7996/settings/gamepts/editgamepts';
-    protected $minMaxGamePt = 'http://10.148.0.10:7996/settings/gamepts/getminmaxpt';
+    protected $gamePtList = '/settings/gamepts/getgameptslist';
+    protected $editGamePt = '/settings/gamepts/editgamepts';
+    protected $minMaxGamePt = '/settings/gamepts/getminmaxpt';
 
     public function __construct()
 	{
@@ -18,7 +18,14 @@ class Gamept_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->editGamePt);
+        
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->editGamePt);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->editGamePt);
+        endif;
+        
+        //$ch = curl_init($this->editGamePt);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -40,7 +47,14 @@ class Gamept_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->minMaxGamePt);
+        
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->minMaxGamePt);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->minMaxGamePt);
+        endif;
+        
+        //$ch = curl_init($this->minMaxGamePt);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -62,7 +76,14 @@ class Gamept_model extends Model
 		$data = array_merge(['lang'=>$_SESSION['lang'], 'sessionid'=>$_SESSION['session'], 'agentid'=>$_SESSION['token']], $where);
 		$payload = json_encode($data);
         
-        $ch = curl_init($this->gamePtList);
+
+        if ( $_SESSION['apibycurrency'] == 'MYR' ):
+            $ch = curl_init($_ENV['apiMyr'].$this->gamePtList);
+        else:
+            $ch = curl_init($_ENV['apiTusdt'].$this->gamePtList);
+        endif;
+
+        //$ch = curl_init($this->gamePtList);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_POST, 1);
